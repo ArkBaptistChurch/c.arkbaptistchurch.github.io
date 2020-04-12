@@ -10,31 +10,32 @@
 
     <script type="text/javascript">
       var API_KEY = "AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw";
-      var FOLDER_ID = "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg";
 
-      (function() {
+      function loadFolder(id, mime) {
         var request = new XMLHttpRequest();
-        request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + FOLDER_ID + "'+in+parents&key=" + API_KEY);
+        request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'+in+parents&key=" + API_KEY);
         request.send();
 
         request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) displayContent(request.responseText);
+            if (this.readyState == 4 && this.status == 200) displayContent(JSON.parse(request.responseText).items, mime);
             else if (this.readyState == 4) console.error("Error getting drive folder data: " + request.responseText);
         }
-      })();
+      }
 
       var template = "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{item}</p></td></tr></table></div></a>";
 
-      function displayContent(data) {
-        var items = JSON.parse(data).items;
+      function displayContent(items, mime) {
         var listFiles = [];
+        //Get all valid files
         for (var i = 0; i < items.length; i++) {
-          if (items[i].kind == "drive#file" && items[i].mimeType.includes("audio")) listFiles.push(items[i]);
+          if (items[i].kind == "drive#file" && items[i].mimeType.includes(mime)) listFiles.push(items[i]);
         }
 
+        //Sort things
         listFiles.sort(function(a, b) {
           return b.title.localeCompare(a.title);
         });
+
         for (var i = 0; i < listFiles.length; i++) items[i] = listFiles[i].title;
         console.log(items[0]);
         for (var i = 0; i < items.length; i++) {
