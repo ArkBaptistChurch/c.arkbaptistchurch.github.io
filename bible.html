@@ -42,7 +42,7 @@
     var daysSinceFirst = Math.floor(((new Date()).getTime() - (new Date("06/25/2019")).getTime()) / (1000 * 3600 * 24)) % 1189;
     for (var offset = 0; offset <= 2; offset++) {
         chapter = chapterFromDate(offset + daysSinceFirst);
-        document.getElementById("t" + offset).innerHTML += chapter[0] + "</br></br>" + chapter[1] + "</br>";
+        document.getElementById("t" + offset).innerHTML += chapter[0] + "</br>" + chapter[1] + "</br>";
         document.getElementById("d" + offset).innerHTML += (new Date(new Date().getTime() + 8.64e+7 * offset)).toLocaleDateString();
     }
 })();

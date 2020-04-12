@@ -54,7 +54,7 @@
             cName = t[1].substring(f).trim();
             eName = t[1].substring(0, f).trim();
           }
-          var a = template.replace("{date}", date).replace("{item}", eName + "</br></br>" + cName + "</br>").replace("{link}", listFiles[i].alternateLink);
+          var a = template.replace("{date}", date).replace("{item}", cName + "</br>" + eName + "</br>").replace("{link}", listFiles[i].alternateLink);
           console.log(a);
           document.getElementById("widget").innerHTML += a;
         }
