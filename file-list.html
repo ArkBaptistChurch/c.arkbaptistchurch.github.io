@@ -27,6 +27,7 @@
           var items = JSON.parse(data).items;
           for (v in items) {
             if (v.kind == "drive#file") console.log(v.originalFilename);
+            else console.log(v.kind);
           }
         }
     </script>
