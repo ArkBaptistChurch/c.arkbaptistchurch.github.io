@@ -23,7 +23,7 @@
         }
       })();
 
-      var template = "<a href=\"{link}\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{item}</p></td></tr></table></div></a>";
+      var template = "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{item}</p></td></tr></table></div></a>";
 
       function displayContent(data) {
         var items = JSON.parse(data).items;
@@ -62,6 +62,10 @@
     </script>
     
     <style>
+      body {
+        overflow-y: auto;
+      }
+
       td {
           width: 50%;
           text-align: center;
