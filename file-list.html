@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="default-style.css">
   </head>
   <body>
-	
+    <p id="text"></p>
     <script type="text/javascript">
 
         var API_KEY = "AIzaSyCtWqEZlUhQdfSy8i4Q7528pxdcjwoW8zY";
@@ -26,7 +26,7 @@
         function displayContent(data) {
           console.log(data);
           var arr = JSON.parse(data);
-          body.innerHTML = arr;
+          document.getElementById("text").innerHTML = arr;
         }
     </script>
   </body>
