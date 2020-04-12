@@ -1,0 +1,71 @@
+* {
+    font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    background-color: #F5F2F0;
+}
+
+#widget {
+    color: rgba(0, 0, 0, 0);
+    background-color: #FFD54F;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+	/*
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+	*/
+    font-size: 12px;
+    margin: 0;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Opera and Firefox */
+}
+
+.cell {
+    background-color: #FFD54E;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 8px;
+}
+
+table {
+    width: 100%;
+}
+
+.carousel-container {
+    padding: 0px;
+    margin: 0px;
+    position: relative;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+@-webkit-keyframes fade {
+    from {opacity: .1}
+    to {opacity: 1}
+}
+
+@-moz-keyframes fade {
+    from {opacity: .1}
+    to {opacity: 1}
+}
+
+@keyframes fade {
+    from {opacity: .1}
+    to {opacity: 1}
+}
