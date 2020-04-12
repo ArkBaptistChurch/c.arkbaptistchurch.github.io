@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>File List</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="default-style.css">
+  </head>
+  <body>
+	
+    <script type="text/javascript">
+
+        var API_KEY = "AIzaSyCtWqEZlUhQdfSy8i4Q7528pxdcjwoW8zY";
+        var FOLDER_ID = "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg";
+
+        (function() {
+          var request = new XMLHttpRequest();
+          request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + FOLDER_ID + "'+in+parents&key=" + API_KEY);
+          request.send();
+
+          request.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) displayContent(request.responseText);
+              else if (this.readyState == 4) console.error("Error getting spreadsheet data: " + request.responseText);
+          }
+        })();
+
+        function displayContent(data) {
+          console.log(data);
+        }
+    </script>
+  </body>
+</html>
