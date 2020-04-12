@@ -24,9 +24,10 @@
         })();
 
         function displayContent(data) {
-          var arr = JSON.parse(data);
-          console.log(arr);
-          console.log(arr.items[0]);
+          var items = JSON.parse(data).items;
+          for (v in items) {
+            if (v.kind == "drive#file") console.log(v.originalFilename);
+          }
         }
     </script>
   </body>
