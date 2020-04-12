@@ -23,7 +23,7 @@
         }
       })();
 
-      var template = "<div class=\"cell\"><table><tr><td class=\"c1\"><strong>{date}</strong></td><td class=\"c2\"><p>{item}</p></td><td class=\"c3\"><strong class=\"noselect\"><a href={download}>DOWNLOAD</a></strong></br></br><strong class=\"noselect\"><a href={listen}>LISTEN</a></strong></tr></table></div>";
+      var template = "<a href=\"{link}\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{item}</p></td></tr></table></div></a>";
 
       function displayContent(data) {
         var items = JSON.parse(data).items;
@@ -33,7 +33,7 @@
         }
 
         listFiles.sort(function(a, b) {
-          return a.title.localeCompare(b.title);
+          return b.title.localeCompare(a.title);
         });
         for (var i = 0; i < listFiles.length; i++) items[i] = listFiles[i].title;
         console.log(items[0]);
@@ -54,8 +54,7 @@
             cName = t[1].substring(f).trim();
             eName = t[1].substring(0, f).trim();
           }
-          var a = template.replace("{date}", date).replace("{item}", eName + "</br></br>" + cName + "</br>");
-          a = a.replace("{download}", listFiles[i].webContentLink).replace("{listen}", listFiles[i].alternateLink);
+          var a = template.replace("{date}", date).replace("{item}", eName + "</br></br>" + cName + "</br>").replace("{link}", listFiles[i].alternateLink);
           console.log(a);
           document.getElementById("widget").innerHTML += a;
         }
@@ -74,15 +73,11 @@
       }
 
       .c1 {
-        width: 20%;
+        width: 25%;
       }
 
       .c2 {
-        width: 60%;
-      }
-
-      .c3 {
-        width: 20%;
+        width: 75%;
       }
     </style>
   </body>
