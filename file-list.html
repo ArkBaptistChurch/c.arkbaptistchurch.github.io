@@ -6,30 +6,84 @@
     <link rel="stylesheet" type="text/css" href="default-style.css">
   </head>
   <body>
-    <p id="text"></p>
+    <div id="widget"></div>
+
     <script type="text/javascript">
+      var API_KEY = "AIzaSyDkS0OZpPC4_u_3Xlzy2sw5yRq4uK0Qwfk";
+      var FOLDER_ID = "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg";
 
-        var API_KEY = "AIzaSyCtWqEZlUhQdfSy8i4Q7528pxdcjwoW8zY";
-        var FOLDER_ID = "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg";
+      (function() {
+        var request = new XMLHttpRequest();
+        request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + FOLDER_ID + "'+in+parents&key=" + API_KEY);
+        request.send();
 
-        (function() {
-          var request = new XMLHttpRequest();
-          request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + FOLDER_ID + "'+in+parents&key=" + API_KEY);
-          request.send();
-
-          request.onreadystatechange = function() {
-              if (this.readyState == 4 && this.status == 200) displayContent(request.responseText);
-              else if (this.readyState == 4) console.error("Error getting spreadsheet data: " + request.responseText);
-          }
-        })();
-
-        function displayContent(data) {
-          var items = JSON.parse(data).items;
-          for (v in items) {
-            if (v.kind == "drive#file") console.log(v.originalFilename);
-            else console.log(v.kind);
-          }
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) displayContent(request.responseText);
+            else if (this.readyState == 4) console.error("Error getting drive folder data: " + request.responseText);
         }
+      })();
+
+      var template = "<div class=\"cell\"><table><tr><td class=\"c1\"><strong>{date}</strong></td><td class=\"c2\"><p>{item}</p></td><td class=\"c3\"><strong class=\"noselect\"><a href={download}>DOWNLOAD</a></strong></br></br><strong class=\"noselect\"><a href={listen}>LISTEN</a></strong></tr></table></div>";
+
+      function displayContent(data) {
+        var items = JSON.parse(data).items;
+        var listFiles = [];
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].kind == "drive#file" && items[i].mimeType.includes("audio")) listFiles.push(items[i]);
+        }
+
+        listFiles.sort(function(a, b) {
+          return a.title.localeCompare(b.title);
+        });
+        for (var i = 0; i < listFiles.length; i++) items[i] = listFiles[i].title;
+        console.log(items[0]);
+        for (var i = 0; i < items.length; i++) {
+          var t = items[i].substring(0, items[i].length - 4).split("_");
+          var date = new Date(t[0].substring(0, 4), t[0].substring(4, 6) - 1, t[0].substring(6)).toLocaleDateString();
+          var cName = "", eName = "";
+          if (t.length == 3) {
+            //English and Chinese names are separated by an underscore
+            cName = t[1];
+            eName = t[2];
+          }
+          else if (t.length == 2) {
+            //English and Chinese names are NOT separated by an underscore
+            //Find first english char
+            var f = 0;
+            while (t[1].charAt(f).match(/[a-zA-Z]/) == null || t[1].charAt(f).match(/[a-zA-Z]/).length == 0) f++;
+            cName = t[1].substring(f).trim();
+            eName = t[1].substring(0, f).trim();
+          }
+          var a = template.replace("{date}", date).replace("{item}", eName + "</br></br>" + cName + "</br>");
+          a = a.replace("{download}", listFiles[i].webContentLink).replace("{listen}", listFiles[i].alternateLink);
+          console.log(a);
+          document.getElementById("widget").innerHTML += a;
+        }
+      }
     </script>
+    
+    <style>
+      td {
+          width: 50%;
+          text-align: center;
+      }
+  
+      #widget {
+          background-color: #F5F2F0;
+          font-size: 16px;
+      }
+
+      .c1 {
+        width: 20%;
+      }
+
+      .c2 {
+        width: 60%;
+      }
+
+      .c3 {
+        width: 20%;
+      }
+    </style>
   </body>
 </html>

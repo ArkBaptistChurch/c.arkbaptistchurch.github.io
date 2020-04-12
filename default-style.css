@@ -10,7 +10,6 @@ body {
 }
 
 #widget {
-    color: rgba(0, 0, 0, 0);
     background-color: #FFD54F;
     text-align: center;
     height: 100%;
@@ -41,6 +40,15 @@ body {
     border-radius: 4px;
     padding: 4px;
     margin: 8px;
+}
+
+p {
+    margin: 0px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
 }
 
 table {
