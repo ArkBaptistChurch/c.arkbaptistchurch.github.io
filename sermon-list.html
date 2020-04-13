@@ -43,7 +43,9 @@
         }
 
         (function() {
-            getData(data => displayContent(data, "widget"), "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg", "audio");
+            //"1-QfiKKCC944Fdcg53cCuc4faR7sk71cg" is currently replaced with parent.id
+            var id = (window.frameElement == null ? "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg" : window.frameElement.id)
+            getData(data => displayContent(data, "widget"), id, "audio");
         })();
         </script>
     </body>
