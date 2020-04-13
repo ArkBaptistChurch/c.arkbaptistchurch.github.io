@@ -44,7 +44,7 @@
 
         (function() {
             //"1-QfiKKCC944Fdcg53cCuc4faR7sk71cg" is currently replaced with parent.id
-            var parentFrame = window.parent.getElementsByClassName("drive-file-list")[0];
+            var parentFrame = window.parent.document == null ? null : window.parent.document.getElementsByClassName("drive-file-list")[0];
             var id = (parentFrame == null ? "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg" : parentFrame.id);
             document.getElementById("widget").innerHTML = parentFrame;
             console.log(parentFrame);
