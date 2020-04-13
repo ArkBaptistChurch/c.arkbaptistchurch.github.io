@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Newsletter List</title>
+        <title>Newsletter Display</title>
         <meta charset="utf-8"/>
         <link rel="stylesheet" type="text/css" href="default-style.css">
         <style>
@@ -30,16 +30,14 @@
         <script type="text/javascript" src="file-list.js"></script>
     </head>
     <body>
-        <div id="widget"></div>
+        <iframe id="widget" src=""></iframe>
 
         <script type="text/javascript">
         var cellTemplate = "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date} Newsletter</strong></td></tr></table></div></a>";
 
         function displayContent(content, element) {
-            for (var i = 0; i < content.length; i++) {
-                var a = cellTemplate.replace("{date}", content[i][0].toLocaleString('default', { month: 'long' }) + " " + content[i][0].getFullYear()).replace("{link}", content[i][3]);
-                document.getElementById(element).innerHTML += a;
-            }
+            var a = content[0][3];
+            document.getElementById("widget").src = a;
         }
 
         (function() {
