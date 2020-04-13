@@ -1,89 +1,50 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>File List</title>
-    <meta charset="utf-8"/>
-    <link rel="stylesheet" type="text/css" href="default-style.css">
-  </head>
-  <body>
-    <div id="widget"></div>
+    <head>
+        <title>File List</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" type="text/css" href="default-style.css">
+        <script type="text/javascript" src="file-list.js"></script>
+    </head>
+    <body>
+        <div id="widget"></div>
 
-    <script type="text/javascript">
-      var API_KEY = "AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw";
+        <script type="text/javascript">
+        var cellTemplate = "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{item}</p></td></tr></table></div></a>";
 
-      function loadFolder(id, mime) {
-        var request = new XMLHttpRequest();
-        request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'+in+parents&key=" + API_KEY);
-        request.send();
-
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) displayContent(JSON.parse(request.responseText).items, mime);
-            else if (this.readyState == 4) console.error("Error getting drive folder data: " + request.responseText);
-        }
-      }
-
-      var template = "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{item}</p></td></tr></table></div></a>";
-
-      function displayContent(items, mime) {
-        var listFiles = [];
-        //Get all valid files
-        for (var i = 0; i < items.length; i++) {
-          if (items[i].kind == "drive#file" && items[i].mimeType.includes(mime)) listFiles.push(items[i]);
+        function displayContent(content, element) {
+            for (var i = 0; i < content.length; i++) {
+                var a = cellTemplate.replace("{date}", content[i][0].toLocaleDateString()).replace("{item}", content[i][1] + "</br>" + content[i][2] + "</br>").replace("{link}", content[i][3]);
+                document.getElementById(element).innerHTML += a;
+            }
         }
 
-        //Sort things
-        listFiles.sort(function(a, b) {
-          return b.title.localeCompare(a.title);
-        });
+        (function() {
+            getData(data => displayContent(data, "widget"), "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg", "audio");
+        })();
+        </script>
+        <style>
+            body {
+                overflow-y: auto;
+            }
 
-        for (var i = 0; i < listFiles.length; i++) items[i] = listFiles[i].title;
-        console.log(items[0]);
-        for (var i = 0; i < items.length; i++) {
-          var t = items[i].substring(0, items[i].length - 4).split("_");
-          var date = new Date(t[0].substring(0, 4), t[0].substring(4, 6) - 1, t[0].substring(6)).toLocaleDateString();
-          var cName = "", eName = "";
-          if (t.length == 3) {
-            //English and Chinese names are separated by an underscore
-            cName = t[1];
-            eName = t[2];
-          }
-          else if (t.length == 2) {
-            //English and Chinese names are NOT separated by an underscore
-            //Find first english char
-            var f = 0;
-            while (t[1].charAt(f).match(/[a-zA-Z]/) == null || t[1].charAt(f).match(/[a-zA-Z]/).length == 0) f++;
-            cName = t[1].substring(f).trim();
-            eName = t[1].substring(0, f).trim();
-          }
-          var a = template.replace("{date}", date).replace("{item}", cName + "</br>" + eName + "</br>").replace("{link}", listFiles[i].alternateLink);
-          console.log(a);
-          document.getElementById("widget").innerHTML += a;
-        }
-      }
-    </script>
-    
-    <style>
-      body {
-        overflow-y: auto;
-      }
+            td {
+                width: 50%;
+                text-align: center;
+            }
 
-      td {
-          width: 50%;
-          text-align: center;
-      }
-  
-      #widget {
-          background-color: #F5F2F0;
-          font-size: 16px;
-      }
+            #widget {
+                background-color: var(--color-background-main);
+                font-size: 16px;
+            }
 
-      .c1 {
-        width: 25%;
-      }
+            .c1 {
+                width: 25%;
+            }
 
-      .c2 {
-        width: 75%;
-      }
-    </style>
-  </body>
+            .c2 {
+                width: 75%;
+            }
+        </style>
+    </body>
 </html>

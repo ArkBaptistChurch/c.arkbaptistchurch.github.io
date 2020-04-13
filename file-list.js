@@ -1,25 +1,14 @@
 var API_KEY = "AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw";
-var cellTemplate = "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{item}</p></td></tr></table></div></a>";
 
-function loadFolder(id, mime) {
+function getData(callback, id, mime) {
     var request = new XMLHttpRequest();
     request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'+in+parents&key=" + API_KEY);
     request.send();
 
     request.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) displayContent(getContent(JSON.parse(request.responseText).items, mime), "widget");
+        if (this.readyState == 4 && this.status == 200) callback(getContent(JSON.parse(request.responseText).items, mime));
         else if (this.readyState == 4) console.error("Error getting drive folder data: " + request.responseText);
     }
-}
-
-function displayContent(content, element) {
-    /*
-    for (var i = 0; i < content.length; i++) {
-        var a = cellTemplate.replace("{date}", date).replace("{item}", cName + "</br>" + eName + "</br>").replace("{link}", listFiles[i].alternateLink);
-        document.getElementById(element).innerHTML += a;
-    }
-    */
-   console.log(content);
 }
 
 function getContent(folderContent, mime) {
@@ -34,7 +23,6 @@ function getContent(folderContent, mime) {
     items.sort(function(a, b) {
         return b.title.localeCompare(a.title);
     });
-    console.log(items);
 
     var itemNames = [];
     //Get item names after removing extensions
@@ -48,23 +36,10 @@ function getContent(folderContent, mime) {
         var cName = "", eName = "", index = tmp[1];
         while (itemNames[i].charAt(index).match(/[a-zA-Z]/) == null) index++;
         cName = itemNames[i].substring(index).trim().replace(/_+$/, '');
-        eName = itemNames[i].substring(0, index).trim();
-        if (t.length == 3) {
-            //English and Chinese names are separated by an underscore
-            cName = t[1];
-            eName = t[2];
-        }
-        else if (t.length == 2) {
-            //Find first english char
-            var f = 0;
-            while (t[1].charAt(f).match(/[a-zA-Z]/) == null || t[1].charAt(f).match(/[a-zA-Z]/).length == 0) f++;
-            cName = t[1].substring(f).cTrim();
-            eName = t[1].substring(0, f).cTrim();
-        }
+        eName = itemNames[i].substring(tmp[1], index).trim();
 
-        res.push([date, cName, eName]);
+        res.push([date, cName, eName, items[i].alternateLink]);
     }
-
     return res;
 }
 
