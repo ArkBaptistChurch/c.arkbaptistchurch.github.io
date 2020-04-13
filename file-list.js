@@ -21,7 +21,7 @@ function getContent(folderContent, mime) {
 
     //Sort files by date
     items.sort(function(a, b) {
-        return b.title.localeCompare(a.title);
+        return getDate(b.title)[0].getTime() - getDate(a.title)[0].getTime();
     });
 
     var itemNames = [];
@@ -69,7 +69,7 @@ function getDate(fileName) {
             }
             else {
                 console.error("Could not identify a valid year (must be >= 1970).");
-                return [new Date(), -1];
+                return [new Date(1970, 1, 1), -1];
             }
         }
         else if (number.length == 6) {
@@ -86,19 +86,19 @@ function getDate(fileName) {
             }
             else {
                 console.error("Could not identify a valid year (must be >= 1970).");
-                return [new Date(), -1];
+                return [new Date(1970, 1, 1), -1];
             }
         }
         else {
             console.error("Could not find date from file name '" + fileName + "'");
-            return [new Date(), -1];
+            return [new Date(1970, 1, 1), -1];
         }
         
         //Check to make sure it makes sense; doesn't check for special leap year rules, only 4 year cycles
         var dim = [0, 31, 28 + (y % 4 == 0 ? 1 : 0), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         if (y <= 1970 || m < 1 || m > 12 || d < 1 || d > dim[m]) {
             console.error("Invalid date (must be either YYYYMMDD or MMDDYYYY, as well as an existing date).");
-            return [new Date(), -1];
+            return [new Date(1970, 1, 1), -1];
         }
 
         //Return the new date, with month offset by 1 (stupid, I think, but whatever.)
@@ -106,7 +106,7 @@ function getDate(fileName) {
     }
     catch (err) {
         console.error("Could not find date from file name '" + fileName + "'");
-        return [new Date(), -1];
+        return [new Date(1970, 1, 1), -1];
     }
 }
 
