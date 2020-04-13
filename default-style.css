@@ -1,3 +1,9 @@
+:root {
+    --color-blue-main: #08457E;
+    --color-yellow-main: #FFDB58;
+    --color-background-main: #F5F2F0;
+}
+
 * {
     font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
 }
@@ -6,11 +12,11 @@ body {
     margin: 0px;
     padding: 0px;
     overflow: hidden;
-    background-color: #F5F2F0;
+    background-color: var(--color-background-main);
 }
 
 #widget {
-    background-color: #FFD54F;
+    background-color: var(--color-yellow-main);
     text-align: center;
     height: 100%;
     width: 100%;
@@ -36,7 +42,7 @@ body {
 }
 
 .cell {
-    background-color: #FFD54E;
+    background-color: var(--color-yellow-main);
     border-radius: 4px;
     padding: 4px;
     margin: 8px;
