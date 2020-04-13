@@ -36,7 +36,7 @@
         var cellTemplate = "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date} Newsletter</strong></td></tr></table></div></a>";
 
         function displayContent(content, element) {
-            var a = content[0][3].substring(content[0][3].indexOf("?")) + "/preview";
+            var a = content[0][3].substring(0, content[0][3].indexOf("?")) + "/preview";
             document.getElementById("widget").src = a;
         }
 
