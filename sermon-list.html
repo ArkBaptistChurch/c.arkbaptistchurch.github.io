@@ -44,9 +44,10 @@
 
         (function() {
             //"1-QfiKKCC944Fdcg53cCuc4faR7sk71cg" is currently replaced with parent.id
-            var id = (window.frameElement == null ? "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg" : window.frameElement.id);
-            document.getElementById("widget").innerHTML = window.frameElement;
-            console.log(window.frameElement);
+            var parentFrame = window.parent.getElementsByClassName("drive-file-list")[0];
+            var id = (parentFrame == null ? "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg" : parentFrame.id);
+            document.getElementById("widget").innerHTML = parentFrame;
+            console.log(parentFrame);
             getData(data => displayContent(data, "widget"), id, "audio");
         })();
         </script>
