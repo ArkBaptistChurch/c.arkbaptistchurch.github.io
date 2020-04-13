@@ -1,70 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Image Popup</title>
-    <meta charset="utf-8"/>
-    <base target="_blank">
-    <link rel="stylesheet" type="text/css" href="default-style.css">
-    <style>
-    body {
-        background-color: var(--color-yellow-main);
-    }
-
-    #img1 {
-        opacity: 1;
-        border-radius: 0%;
-    }
-
-    #img2 {
-        opacity: 0;
-        border-radius: 0%;
-    }
-
-    #popup-toggle > img {
-        display: block;
-        width: 92%;
-        height: 92%;
-        position: absolute;
-        transition: border-radius 0.5s, opacity 0.5s;
-        -webkit-transition: border-radius 0.5s, opacity 0.5s;
-        margin: 2%;
-        padding: 2%;
-    }
-    </style>
-  </head>
-  <body>
-    <div id="popup-toggle" onclick="toggleDisplay()">
-        <img id="img1" src="img/line-original.png">
-        <img id="img2" src="img/line-qr.png">
-    </div>
-
-    <script type="text/javascript">
-        var isDisplayed = false;
-        
-        ( function() {
-            toggleDisplay();
-        })();
-        
-        function toggleDisplay() {
-            var btn = document.getElementById("popup-toggle");
-            
-            isDisplayed = ! isDisplayed;
-            
-            if (isDisplayed) {
-                btn.children[0].style.opacity = 1;
-                btn.children[1].style.opacity = 0;
-                btn.children[0].style.borderRadius = "50%";
-                btn.children[1].style.borderRadius = "50%";
+    <head>
+        <title>Image Popup</title>
+        <meta charset="utf-8"/>
+        <base target="_blank">
+        <link rel="stylesheet" type="text/css" href="default-style.css">
+        <style>
+            body {
+                background-color: var(--color-yellow-main);
             }
-            else {
-                btn.children[0].style.opacity = 0;
-                btn.children[1].style.opacity = 1;
-                btn.children[0].style.borderRadius = "0%";
-                btn.children[1].style.borderRadius = "0%";
+
+            #img1 {
+                opacity: 1;
+                border-radius: 0%;
             }
-        }
 
+            #img2 {
+                opacity: 0;
+                border-radius: 0%;
+            }
 
-    </script>
-  </body>
+            #popup-toggle > img {
+                display: block;
+                width: 92%;
+                height: 92%;
+                position: absolute;
+                transition: border-radius 0.5s, opacity 0.5s;
+                -webkit-transition: border-radius 0.5s, opacity 0.5s;
+                margin: 2%;
+                padding: 2%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="popup-toggle" onclick="toggleDisplay()">
+            <img id="img1" src="img/line-original.png">
+            <img id="img2" src="img/line-qr.png">
+        </div>
+
+        <script type="text/javascript">
+            var isDisplayed = false;
+
+            (function() {
+                toggleDisplay();
+            })();
+
+            function toggleDisplay() {
+                var btn = document.getElementById("popup-toggle");
+
+                isDisplayed = ! isDisplayed;
+
+                if (isDisplayed) {
+                    btn.children[0].style.opacity = 1;
+                    btn.children[1].style.opacity = 0;
+                    btn.children[0].style.borderRadius = "50%";
+                    btn.children[1].style.borderRadius = "50%";
+                }
+                else {
+                    btn.children[0].style.opacity = 0;
+                    btn.children[1].style.opacity = 1;
+                    btn.children[0].style.borderRadius = "0%";
+                    btn.children[1].style.borderRadius = "0%";
+                }
+            }
+        </script>
+    </body>
 </html>
