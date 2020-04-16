@@ -43,7 +43,14 @@
         }
 
         (function() {
-            getData(data => displayContent(data, "widget"), "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg", "audio");
+            var url = window.location.href;
+            var uid = url.substring(url.indexOf("?id="));
+            //Remove the ?id= part of the url
+            var id = (uid.length <= 4 ? "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg" : uid.substring(4));
+            console.log(id);
+
+            //Change last string to filter by extension (pdf, mp3, etc.)
+            getData(data => displayContent(data, "widget"), id, "");
         })();
         </script>
     </body>

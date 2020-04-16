@@ -34,9 +34,11 @@ function getContent(folderContent, mime) {
         var date = tmp[0];
 
         var cName = "", eName = "", index = tmp[1];
-        while (itemNames[i].charAt(index).match(/[a-zA-Z]/) == null) index++;
-        cName = itemNames[i].substring(index).trim().replace(/_+$/, '');
-        eName = itemNames[i].substring(tmp[1], index).trim();
+        while (index < itemNames[i].length && itemNames[i].charAt(index).match(/[a-zA-Z]/) == null) index++;
+
+        //The chinese name is second, and could have index errors.
+        if (index != itemNames[i].length) cName = itemNames[i].substring(index).cTrim();
+        eName = itemNames[i].substring(tmp[1], index).cTrim();
 
         res.push([date, cName, eName, items[i].alternateLink]);
     }
