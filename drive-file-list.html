@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sermon List</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" type="text/css" href="default-style.css">
+        <style>
+            body {
+                overflow-y: auto;
+            }
+
+            td {
+                width: 50%;
+                text-align: center;
+            }
+
+            #widget {
+                background-color: var(--color-background-main);
+                font-size: 16px;
+            }
+
+            .c1 {
+                width: 25%;
+            }
+
+            .c2 {
+                width: 75%;
+            }
+        </style>
+        <script type="text/javascript" src="file-list.js"></script>
+    </head>
+    <body>
+        <div id="widget"></div>
+
+        <script type="text/javascript">
+        //0 is date, chinese, and english
+        //1 is date, newsletter
+        //2 is chinese only
+        var cellTemplate = [
+        "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{c-item}<br />{e-item}</p></td></tr></table></div></a>",
+        "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{month-str} {year} Newsletter</strong></td></tr></table></div></a>",
+        "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{c-item}</p></td></tr></table></div></a>"
+        ];
+
+        function displayContent(content, element, displayType) {
+            for (var i = 0; i < content.length; i++) {
+                var a = cellTemplate[displayType];
+
+                a = a.replace("{date}", content[i][0].toLocaleDateString())
+                a = a.replace("{e-item}", content[i][1]);
+                a = a.replace("{c-item}", content[i][2]);
+                a = a.replace("{link}", content[i][3]);
+                a = a.replace("{month-str}", content[i][0].toLocaleString('default', { month: 'long' }));
+                a = a.replace("{year}", content[i][0].getFullYear());
+
+                document.getElementById(element).innerHTML += a;
+            }
+        }
+
+        (function() {
+            var url = window.location.href;
+
+            var arr = url.split(/[&?]/);
+            var id = "", filter = "", disp = 0;
+            for (var i = 1; i < arr.length; i++) {
+                if (arr[i].indexOf("id") == 0) id = arr[i].substring(3);
+                if (arr[i].indexOf("filter") == 0) filter = arr[i].substring(7);
+                if (arr[i].indexOf("display") == 0) disp = arr[i].substring(8);
+            }
+            if (id == "") id = "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg";
+            console.log(id + " " + filter);
+            //Change last string to filter by extension (pdf, mp3, etc.)
+            getData(data => displayContent(data, "widget", disp), id, filter);
+        })();
+        </script>
+    </body>
+</html>
