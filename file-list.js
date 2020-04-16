@@ -1,5 +1,9 @@
 var API_KEY = "AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw";
 
+function cTrim(text) {
+    return text.trim().replace(/_+$/, '').replace(/^_+/, '').replace(/-+$/, '').replace(/^-+/, '');
+}
+
 function getData(callback, id, mime) {
     var request = new XMLHttpRequest();
     request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'+in+parents&key=" + API_KEY);
@@ -37,8 +41,8 @@ function getContent(folderContent, mime) {
         while (index < itemNames[i].length && itemNames[i].charAt(index).match(/[a-zA-Z]/) == null) index++;
 
         //The chinese name is second, and could have index errors.
-        if (index != itemNames[i].length) cName = itemNames[i].substring(index).cTrim();
-        eName = itemNames[i].substring(tmp[1], index).cTrim();
+        if (index != itemNames[i].length) cName = cTrim(itemNames[i].substring(index));
+        eName = cTrim(itemNames[i].substring(tmp[1], index));
 
         res.push([date, cName, eName, items[i].alternateLink]);
     }
@@ -110,8 +114,4 @@ function getDate(fileName) {
         console.error("Could not find date from file name '" + fileName + "'");
         return [new Date(1970, 1, 1), -1];
     }
-}
-
-function cTrim(text) {
-    return text.trim().replace(/_+$/, '').replace(/^_+/, '').replace(/-+$/, '').replace(/^-+/, '');
 }
