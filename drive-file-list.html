@@ -63,9 +63,9 @@
             var arr = url.split(/[&?]/);
             var id = "", filter = "", disp = 0;
             for (var i = 1; i < arr.length; i++) {
-                if (arr[i].indexOf("id") == 0) id = arr[i].substring(3);
-                if (arr[i].indexOf("filter") == 0) filter = arr[i].substring(7);
-                if (arr[i].indexOf("display") == 0) disp = arr[i].substring(8);
+                if (arr[i].indexOf("id=") == 0) id = arr[i].substring(3);
+                if (arr[i].indexOf("filter=") == 0) filter = arr[i].substring(7);
+                if (arr[i].indexOf("display=") == 0) disp = arr[i].substring(8);
             }
             if (id == "") id = "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg";
             console.log(id + " " + filter);
