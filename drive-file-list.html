@@ -1,7 +1,16 @@
 <!DOCTYPE html>
+<!--
+    Parameters:
+    id: The id of the drive file. (Default: '1-QfiKKCC944Fdcg53cCuc4faR7sk71cg', the 2020 media files)
+    filter: An extension (EX: "pdf"); only files of that type will be shown. (Default: none)
+    display: The display type of the cell. (Default: 0)
+        0: Date, Chinese Name, and English Name
+        1: Month, Year, and "Newsletter"
+        2: Date and Chinese Name only
+-->
 <html>
     <head>
-        <title>Sermon List</title>
+        <title>Drive File List</title>
         <meta charset="utf-8"/>
         <link rel="stylesheet" type="text/css" href="default-style.css">
         <style>
@@ -33,9 +42,6 @@
         <div id="widget"></div>
 
         <script type="text/javascript">
-        //0 is date, chinese, and english
-        //1 is date, newsletter
-        //2 is chinese only
         var cellTemplate = [
         "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{c-item}<br />{e-item}</p></td></tr></table></div></a>",
         "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{month-str} {year} Newsletter</strong></td></tr></table></div></a>",
