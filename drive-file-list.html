@@ -56,8 +56,8 @@
                 var a = cellTemplate[displayType];
 
                 a = a.replace("{date}", content[i][0].toLocaleDateString())
-                a = a.replace("{e-item}", content[i][1]);
-                a = a.replace("{c-item}", content[i][2]);
+                a = a.replace("{e-item}", content[i][2]);
+                a = a.replace("{c-item}", content[i][1]);
                 a = a.replace("{link}", content[i][3]);
                 a = a.replace("{month-str}", content[i][0].toLocaleString('default', { month: 'long' }));
                 a = a.replace("{year}", content[i][0].getFullYear());
