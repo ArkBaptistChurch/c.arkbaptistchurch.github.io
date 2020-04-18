@@ -9,7 +9,7 @@
     - display: The display type of the cell. (Default: 0)
         0: Date, Chinese Name, and English Name (Names vertical)
         1: Date, Chinese Name, and English Name (Names horizontal)
-        2: Month, Year, English Name
+        2: Month, Year, Chinese Name, English Name (Names horizontal)
     
     Examples (the first would be for the sermon list, and the second to list all the english names of the photos):
     .../drive-file-list.html?id=1-QfiKKCC944Fdcg53cCuc4faR7sk71cg&filter=mp3&display=0
@@ -52,7 +52,7 @@
         var cellTemplate = [
         "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{c-item}{e-item}</p></td></tr></table></div></a>",
         "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{c-item}{e-item}</p></td></tr></table></div></a>",
-        "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{month-str} {year} {e-item}</strong></td></tr></table></div></a>"
+        "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{month}/{year} {c-item}{e-item}</strong></td></tr></table></div></a>"
         ];
 
         function displayContent(content, element, displayType) {
@@ -60,13 +60,15 @@
                 var a = cellTemplate[displayType];
                 if (content[i][1].length != 0 && content[i][2].length != 0) {
                     if (displayType == 0) content[i][1] += "<br />";
-                    if (displayType == 1) content[i][1] += "    ";
+                    if (displayType == 1) content[i][1] += " ";
+                    if (displayType == 2) content[i][1] += " ";
                 }
                 a = a.replace("{date}", content[i][0].toLocaleDateString())
                 a = a.replace("{e-item}", content[i][2]);
                 a = a.replace("{c-item}", content[i][1]);
                 a = a.replace("{link}", content[i][3]);
                 a = a.replace("{month-str}", content[i][0].toLocaleString('default', { month: 'long' }));
+                a = a.replace("{month}", (content[i][0].getMonth() + 1));
                 a = a.replace("{year}", content[i][0].getFullYear());
 
                 document.getElementById(element).innerHTML += a;
