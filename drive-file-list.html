@@ -2,14 +2,18 @@
 <!--
     Parameters:
     - id: The id of the drive file. (Default: '1-QfiKKCC944Fdcg53cCuc4faR7sk71cg', the 2020 media files)
-    - filter: An extension (EX: "pdf"); only files of that type will be shown. (Default: none)
-    - display: The display type of the cell. (Default: 0)
-        0: Date, Chinese Name, and English Name
-        1: Month, Year, and "Newsletter"
-        2: Date and Chinese Name only
+
+    - filter: An extension (EX: "pdf") or MIME type (EX: "image", see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types).
+        Only files of that type will be shown. (Default: none)
     
-    Example (this would be for the sermon list):
+    - display: The display type of the cell. (Default: 0)
+        0: Date, Chinese Name, and English Name (Names vertical)
+        1: Date, Chinese Name, and English Name (Names horizontal)
+        2: Month, Year, English Name
+    
+    Examples (the first would be for the sermon list, and the second to list all the english names of the photos):
     .../drive-file-list.html?id=1-QfiKKCC944Fdcg53cCuc4faR7sk71cg&filter=mp3&display=0
+    .../drive-file-list.html?id=1-QfiKKCC944Fdcg53cCuc4faR7sk71cg&filter=image&display=2
 -->
 <html>
     <head>
@@ -46,15 +50,18 @@
 
         <script type="text/javascript">
         var cellTemplate = [
-        "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{c-item}<br />{e-item}</p></td></tr></table></div></a>",
-        "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{month-str} {year} Newsletter</strong></td></tr></table></div></a>",
-        "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{c-item}</p></td></tr></table></div></a>"
+        "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{c-item}{e-item}</p></td></tr></table></div></a>",
+        "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{date}</strong></td><td class=\"c2 noselect\"><p>{c-item}{e-item}</p></td></tr></table></div></a>",
+        "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{month-str} {year} {e-item}</strong></td></tr></table></div></a>"
         ];
 
         function displayContent(content, element, displayType) {
             for (var i = 0; i < content.length; i++) {
                 var a = cellTemplate[displayType];
-
+                if (content[i][1].length != 0 && content[i][2].length != 0) {
+                    if (displayType == 0) content[i][1] += "<br />";
+                    if (displayType == 1) content[i][1] += "    ";
+                }
                 a = a.replace("{date}", content[i][0].toLocaleDateString())
                 a = a.replace("{e-item}", content[i][2]);
                 a = a.replace("{c-item}", content[i][1]);
