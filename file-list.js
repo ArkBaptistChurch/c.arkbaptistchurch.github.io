@@ -1,30 +1,47 @@
 var API_KEY = "AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw";
 
-function cTrim(text) {
-    return text.trim().replace(/_+$/, '').replace(/^_+/, '').replace(/-+$/, '').replace(/^-+/, '');
-}
-
-function getData(callback, id, mime) {
+function getDataFromDescription(callback, id, mime) {
     var request = new XMLHttpRequest();
     request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'+in+parents&key=" + API_KEY);
     request.send();
 
     request.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) callback(getContent(JSON.parse(request.responseText).items, mime));
+        if (this.readyState == 4 && this.status == 200) callback(getContentFromDescriptions(JSON.parse(request.responseText).items, mime));
         else if (this.readyState == 4) console.error("Error getting drive folder data: " + request.responseText);
     }
 }
 
-function getContent(folderContent, mime) {
-    var res = [];
-    var items = [];
-    //Get all valid files
-    for (var i = 0; i < folderContent.length; i++) {
-        if (folderContent[i].kind == "drive#file" && folderContent[i].mimeType.includes(mime)) items.push(folderContent[i]);
+//Returns an array of arrays, containing each file's: date, chinese name, english name, alternate (view) link
+function getDataFromNames(callback, id, mime, reverse) {
+    var request = new XMLHttpRequest();
+    request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'+in+parents&key=" + API_KEY);
+    request.send();
+
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) callback(getContentFromNames(JSON.parse(request.responseText).items, mime, reverse));
+        else if (this.readyState == 4) console.error("Error getting drive folder data: " + request.responseText);
     }
+}
+
+function getContentFromDescriptions(folderContent, mime, reverse) {
+    var items = fromDescription(filterByMIME(folderContent, mime));
+    
+    //Sort files
+    items.sort(function(a, b) {
+        if (reverse) return a[0] - b[0];
+        return b[0] - a[0];
+    });
+
+    return items;
+}
+
+function getContentFromNames(folderContent, mime, reverse) {
+    var res = [];
+    var items = filterByMIME(folderContent, mime);
 
     //Sort files by date
     items.sort(function(a, b) {
+        if (reverse) return getDate(a.title)[0].getTime() - getDate(b.title)[0].getTime();
         return getDate(b.title)[0].getTime() - getDate(a.title)[0].getTime();
     });
 
@@ -111,4 +128,40 @@ function getDate(fileName) {
         console.error("Could not find date from file name '" + fileName + "'");
         return [new Date(1970, 0 ,1), 0];
     }
+}
+
+function fromDescription(arr) {
+    var res = [];
+    for (var i = 0; i < arr.length; i++) {
+        try {
+            var tmp = arr.split("^");
+            for (var j = 0; j < temp.length; j++) tmp[j] = cTrim(tmp[j]);
+            tmp[2] = getDate(tmp[2]);
+            tmp[3] = getDate(tmp[3]);
+            res.push(tmp);
+        }
+        catch (err) {
+            console.error("Could not parse description '" + arr[i] + "'.");
+        }
+    }
+    return res;
+}
+
+function cTrim(text) {
+    return text.trim().replace(/_+$/, '').replace(/^_+/, '').replace(/-+$/, '').replace(/^-+/, '');
+}
+
+function filterByMIME(folderContent, mime) {
+    var items = [];
+    //Get all valid files
+    for (var i = 0; i < folderContent.length; i++) {
+        if (folderContent[i].kind != "drive#file") continue;
+        for (var m = 0; m < mime.length; m++) {
+            if (folderContent[i].mimeType.includes(mime[m])) {
+                items.push(folderContent[i]);
+                break;
+            }
+        }
+    }
+    return items;
 }

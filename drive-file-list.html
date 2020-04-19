@@ -5,15 +5,20 @@
 
     - filter: An extension (EX: "pdf") or MIME type (EX: "image", see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types).
         Only files of that type will be shown. (Default: none)
-    
+        Multiple extensions or mime types can be specified, separated by a '+'
+
     - display: The display type of the cell. (Default: 0)
         0: Date, Chinese Name, and English Name (Names vertical)
         1: Date, Chinese Name, and English Name (Names horizontal)
         2: Month, Year, Chinese Name, English Name (Names horizontal)
     
-    Examples (the first would be for the sermon list, and the second to list all the english names of the photos):
-    .../drive-file-list.html?id=1-QfiKKCC944Fdcg53cCuc4faR7sk71cg&filter=mp3&display=0
-    .../drive-file-list.html?id=1-QfiKKCC944Fdcg53cCuc4faR7sk71cg&filter=image&display=2
+    - reverse: Whether to reverse the output order or not. (Default: 0)
+        0: Don't reverse
+        1: Reverse
+    
+    Examples (the first would be for the sermon list, and the second to list all the names of the photos in that same folder):
+    .../drive-file-list.html?filter=mp3
+    .../drive-file-list.html?id=1-QfiKKCC944Fdcg53cCuc4faR7sk71cg&filter=image&display=2&loc=0
 -->
 <html>
     <head>
@@ -79,16 +84,15 @@
             var url = window.location.href;
 
             var arr = url.split(/[&?]/);
-            var id = "", filter = "", disp = 0;
+            var id = "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg", filter = "", disp = 0, rev = 0;
             for (var i = 1; i < arr.length; i++) {
                 if (arr[i].indexOf("id=") == 0) id = arr[i].substring(3);
                 if (arr[i].indexOf("filter=") == 0) filter = arr[i].substring(7);
                 if (arr[i].indexOf("display=") == 0) disp = arr[i].substring(8);
+                if (arr[i].indexOf("reverse=") == 0) rev = arr[i].substring(8);
             }
-            if (id == "") id = "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg";
-            console.log(id + " " + filter);
             //Change last string to filter by extension (pdf, mp3, etc.)
-            getData(data => displayContent(data, "widget", disp), id, filter);
+            getDataFromNames(data => displayContent(data, "widget", disp), id, filter.split("+"), rev);
         })();
         </script>
     </body>
