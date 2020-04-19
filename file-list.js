@@ -1,6 +1,6 @@
 var API_KEY = "AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw";
 
-function getDataFromDescription(callback, id, mime) {
+function getDataFromDescriptions(callback, id, mime) {
     var request = new XMLHttpRequest();
     request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'+in+parents&key=" + API_KEY);
     request.send();
@@ -24,15 +24,21 @@ function getDataFromNames(callback, id, mime, reverse) {
 }
 
 function getContentFromDescriptions(folderContent, mime, reverse) {
-    var items = fromDescription(filterByMIME(folderContent, mime));
-    
+    var items = filterByMIME(folderContent, mime);
+    var res = [];
+    for (var i = 0; i < items.length; i++) {
+        var tmp = fromDescription(items[i].description);
+        if (tmp == null) return;
+        tmp.push(items[i].downloadUrl);
+        res.push(tmp);
+    }
     //Sort files
-    items.sort(function(a, b) {
+    res.sort(function(a, b) {
         if (reverse) return a[0] - b[0];
         return b[0] - a[0];
     });
 
-    return items;
+    return res;
 }
 
 function getContentFromNames(folderContent, mime, reverse) {
@@ -116,8 +122,8 @@ function getDate(fileName) {
         
         //Check to make sure it makes sense; doesn't check for special leap year rules, only 4 year cycles
         var dim = [0, 31, 28 + (y % 4 == 0 ? 1 : 0), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-        if (y <= 1970 || m < 1 || m > 12 || d < 1 || d > dim[m]) {
-            console.error("Invalid date (must be either YYYYMMDD or MMDDYYYY, as well as an existing date).");
+        if (y < 1970 || m < 1 || m > 12 || d < 1 || d > dim[m]) {
+            console.error("Invalid date (must be either YYYYMMDD or MMDDYYYY, as well as an existing date). ");
             return [new Date(1970, 0 ,1), 0];
         }
 
@@ -130,21 +136,23 @@ function getDate(fileName) {
     }
 }
 
-function fromDescription(arr) {
-    var res = [];
-    for (var i = 0; i < arr.length; i++) {
-        try {
-            var tmp = arr.split("^");
-            for (var j = 0; j < temp.length; j++) tmp[j] = cTrim(tmp[j]);
-            tmp[2] = getDate(tmp[2]);
-            tmp[3] = getDate(tmp[3]);
-            res.push(tmp);
-        }
-        catch (err) {
-            console.error("Could not parse description '" + arr[i] + "'.");
-        }
+function fromDescription(item) {
+    if (item == null) item = "^";
+    try {
+        var tmp = item.split("^");
+        while (tmp.length < 6) tmp.push("");
+        for (var j = 0; j < tmp.length; j++) tmp[j] = cTrim(tmp[j]);
+        if (tmp[0].length == 0) tmp[0] = 0;
+        if (tmp[1].length == 0) tmp[1] = 5;
+        var d1 = getDate(tmp[2]), d2 = getDate(tmp[3]);
+        tmp[2] = d1[1] == 0 ? (new Date(new Date("1/1/1970").getTime() + 2.0e+8)) : d1[0];
+        tmp[3] = d2[1] == 0 ? (new Date(new Date().getTime() + 2.0e+8)) : d2[0];
+        return tmp;
     }
-    return res;
+    catch (err) {
+        console.error("Could not parse description '" + item + "'.");
+        return null;
+    }
 }
 
 function cTrim(text) {
@@ -152,6 +160,7 @@ function cTrim(text) {
 }
 
 function filterByMIME(folderContent, mime) {
+    if (mime.length == 0) return folderContent;
     var items = [];
     //Get all valid files
     for (var i = 0; i < folderContent.length; i++) {
