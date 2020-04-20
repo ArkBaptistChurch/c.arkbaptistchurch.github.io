@@ -19,7 +19,7 @@ function getDataFromNames(callback, id, mime, reverse) {
 
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) callback(getContentFromNames(JSON.parse(request.responseText).items, mime, reverse));
-        else if (this.readyState == 4) console.error("Error getting drive folder data: " + request.responseText);
+        else if (this.readyState == 4) console.error("Error getting drive folder data: " + request.responseText + "\n.");
     }
 }
 
