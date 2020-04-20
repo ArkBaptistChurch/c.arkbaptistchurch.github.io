@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bible Memorization</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="default-style.css">
+        <script type="text/javascript" src="file-list.js"></script>
+        <style>
+            td {
+                width: 100%;
+                text-align: center;
+            }
+
+            #widget {
+                background-color: var(--color-background-main);
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="widget">
+            <div class="cell">
+                <table>
+                    <tr>
+                        <td>
+                            <a id="l-e"></a>
+                            <br />
+                            <a id="l-c"></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var API_KEY = "AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw";
+            var SPREADSHEET_ID = "1yK6FR-9-Hb_Ya-kj1UPItjpdRba6LiG7WBd3V7Wi35g";
+            var QUERY = "Sheet1!A:F";
+
+            (function() {
+                var request = new XMLHttpRequest();
+                request.open("GET", "https://sheets.googleapis.com/v4/spreadsheets/" + SPREADSHEET_ID + "/values/" + QUERY + "?key=" + API_KEY);
+                request.send();
+
+                request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) displaySheetContent(request.responseText);
+                    else if (this.readyState == 4) console.error("Error getting spreadsheet data: " + request.responseText);
+                }
+            })();
+
+            var container = "<div class=\"carousel-container slow-fade\">{content}{menu}</div>";
+            var menu = "<div style=\"text-align:center\" class=\"banner-menu slow-fade\"><a class=\"banner-prev\" onclick=\"changeSlide(-1)\">&#10094;</a>{content}<a class=\"banner-next\" onclick=\"changeSlide(1)\">&#10095;</a></div>"
+
+            var times = [];
+
+            function displaySheetContent(data) {
+                var table = JSON.parse(data).values;
+                if (table.length == 0) return;
+
+                var date = new Date();
+                var index = 1;
+                while (index < table.length) {
+                    var s = getDate(table[index][0]);
+                    try {
+                        if (s[1] == 0) s[0] = new Date(table[index][0]);
+                    }
+                    catch(err) {
+                        console.log("Could not read date (backup).");
+                    }
+                    if (date < s[0]) break;
+                    index++;
+                }
+                if (index >= table.length) index = table.length;
+                index--;
+                var chapter = [table[index][5], table[index][4]];
+                
+                document.getElementById("l-e").innerHTML += chapter[0];
+                document.getElementById("l-c").innerHTML += chapter[1];
+                document.getElementById("l-e").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=NIV&interface=print";
+                document.getElementById("l-c").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=CUVMPT&interface=print";
+            }
+
+            var slideIndex = 0;
+
+            function changeSlide(n) {
+                slideIndex += n;
+                updateSlides(false);
+            }
+
+            function setSlide(n) {
+                slideIndex = n;
+                updateSlides(false);
+            }
+
+            function showMenu() {
+                document.getElementsByClassName("banner-menu")[0].style.visibility = "visible";
+                updateSlides(false);
+            }
+
+            function updateSlides(doUpdate) {
+                clearTimeouts();
+                var slides = document.getElementsByClassName("banner");
+                var dots = document.getElementsByClassName("banner-dot");
+                for (var i = 0; i < slides.length; i++) slides[i].style.display = "none";
+                for (var i = 0; i < dots.length; i++) dots[i].className = dots[i].className.replace(" banner-active", "");
+                if (doUpdate) slideIndex += 1;
+                slideIndex = (slideIndex + slides.length) % slides.length;
+                slides[slideIndex].style.display = "block";
+                dots[slideIndex].className += " banner-active";
+                setTimeout(updateSlides, times[slideIndex], true);
+            }
+
+            function clearTimeouts() {
+                var id = window.setTimeout(function() {}, 0);
+                while (id--) window.clearTimeout(id);
+            }
+        </script>
+    </body>
+</html>
