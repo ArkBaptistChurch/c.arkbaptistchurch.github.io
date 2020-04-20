@@ -60,8 +60,9 @@
         "<a href=\"{link}\" target=\"_blank\"><div class=\"cell\"><table><tr><td class=\"c1 noselect\"><strong>{month}/{year} {c-item}{e-item}</strong></td></tr></table></div></a>"
         ];
 
-        function displayContent(content, element, displayType) {
-            for (var i = 0; i < content.length; i++) {
+        function displayContent(content, element, displayType, count) {
+            if (count <= 0 || count > content.length) count = content.length;
+            for (var i = 0; i < count; i++) {
                 var a = cellTemplate[displayType];
                 if (content[i][1].length != 0 && content[i][2].length != 0) {
                     if (displayType == 0) content[i][1] += "<br />";
@@ -84,15 +85,16 @@
             var url = window.location.href;
 
             var arr = url.split(/[&?]/);
-            var id = "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg", filter = "", disp = 0, rev = 0;
+            var id = "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg", filter = "", disp = 0, rev = 0, count = 0;
             for (var i = 1; i < arr.length; i++) {
                 if (arr[i].indexOf("id=") == 0) id = arr[i].substring(3);
                 if (arr[i].indexOf("filter=") == 0) filter = arr[i].substring(7);
                 if (arr[i].indexOf("display=") == 0) disp = arr[i].substring(8);
                 if (arr[i].indexOf("reverse=") == 0) rev = arr[i].substring(8);
+                if (arr[i].indexOf("count=") == 0) count = arr[i].substring(8);
             }
             //Change last string to filter by extension (pdf, mp3, etc.)
-            getDataFromNames(data => displayContent(data, "widget", disp), id, filter.split("+"), rev);
+            getDataFromNames(data => displayContent(data, "widget", disp, count), id, filter.split("+"), rev);
         })();
         </script>
     </body>
