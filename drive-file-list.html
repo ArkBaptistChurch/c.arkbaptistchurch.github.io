@@ -91,7 +91,7 @@
                 if (arr[i].indexOf("filter=") == 0) filter = arr[i].substring(7);
                 if (arr[i].indexOf("display=") == 0) disp = arr[i].substring(8);
                 if (arr[i].indexOf("reverse=") == 0) rev = arr[i].substring(8);
-                if (arr[i].indexOf("count=") == 0) count = arr[i].substring(8);
+                if (arr[i].indexOf("count=") == 0) count = arr[i].substring(6);
             }
             //Change last string to filter by extension (pdf, mp3, etc.)
             getDataFromNames(data => displayContent(data, "widget", disp, count), id, filter.split("+"), rev);
