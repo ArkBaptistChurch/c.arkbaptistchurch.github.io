@@ -127,7 +127,6 @@
                 var date = new Date();
                 for (var r = 0; r < data.length; r++) {
                     var item = data[r];
-                    console.log(item);
                     var s = item[2], e = item[3];
                     if (date > new Date(s) && date < new Date(e)) {
                         var t = [
@@ -140,7 +139,6 @@
                         times.push(Math.round(parseFloat(item[1]) * 1000.0));
                     }
                 }
-
                 document.getElementById("widget").innerHTML = container.replace("{content}", banners).replace("{menu}", menu.replace("{content}", buttons));
                 document.getElementsByClassName("carousel-container")[0].children[0].children[0].children[0].onload = function() { showMenu(); };
                 updateSlides();

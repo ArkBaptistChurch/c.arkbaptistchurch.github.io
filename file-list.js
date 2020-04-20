@@ -29,7 +29,7 @@ function getContentFromDescriptions(folderContent, mime, reverse) {
     for (var i = 0; i < items.length; i++) {
         var tmp = fromDescription(items[i].description);
         if (tmp == null) return;
-        tmp.push(items[i].downloadUrl);
+        tmp.push(items[i].webContentLink);
         res.push(tmp);
     }
     //Sort files
