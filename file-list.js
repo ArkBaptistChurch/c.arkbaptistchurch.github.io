@@ -31,6 +31,7 @@ function getContentFromDescriptions(folderContent, mime, reverse) {
         if (tmp == null) return;
         tmp.push(items[i].webContentLink);
         res.push(tmp);
+        console.log("Found file " + tmp);
     }
     //Sort files
     res.sort(function(a, b) {
@@ -65,6 +66,7 @@ function getContentFromNames(folderContent, mime, reverse) {
         cName = cTrim(itemNames[i].substring(tmp[1], index));
         eName = cTrim(itemNames[i].substring(index));
         res.push([date, cName, eName, items[i].alternateLink]);
+        console.log("Found file " + tmp);
     }
     return res;
 }
