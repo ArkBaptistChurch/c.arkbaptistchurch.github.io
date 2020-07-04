@@ -42,7 +42,13 @@
         }
 
         (function() {
-            getDataFromNames(data => displayContent(data, "widget"), "10AqSBKBZrGGtaK9X9FWeao9X91Dckhh0", "application", false);
+            var arr = url.split(/[&?]/);
+            var id = "10AqSBKBZrGGtaK9X9FWeao9X91Dckhh0";
+            for (var i = 1; i < arr.length; i++) {
+                if (arr[i].indexOf("id=") == 0) id = arr[i].substring(3);
+            }
+            
+            getDataFromNames(data => displayContent(data, "widget"), id, "application", false);
         })();
         </script>
     </body>
