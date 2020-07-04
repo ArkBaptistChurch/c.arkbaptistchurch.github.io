@@ -173,8 +173,8 @@ function filterByMIME(folderContent, mime) {
         for (var m = 0; m < mime.length; m++) {
             if (folderContent[i].mimeType.includes(mime[m])) {
                 items.push(folderContent[i]);
-                console.log("Was added. New array:");
-                console.log(items);
+                console.log("New last item:");
+                console.log(items[items.length - 1]);
                 break;
             }
         }
