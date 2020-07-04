@@ -46,8 +46,7 @@ function getContentFromNames(folderContent, mime, reverse) {
     var res = [];
     console.log(folderContent);
     var items = filterByMIME(folderContent, mime);
-    console.log(items);
-    console.log(getDate(items[2].title));
+    console.log(JSON.stringify(items));
     //Sort files by date
     items.sort(function(a, b) {
         if (reverse) return getDate(a.title)[0].getTime() - getDate(b.title)[0].getTime();
@@ -167,14 +166,10 @@ function filterByMIME(folderContent, mime) {
     var items = [];
     //Get all valid files
     for (var i = 0; i < folderContent.length; i++) {
-        console.log(folderContent[i]);
         if (folderContent[i].kind != "drive#file") continue;
-        console.log("Passed #1");
         for (var m = 0; m < mime.length; m++) {
             if (folderContent[i].mimeType.includes(mime[m])) {
                 items.push(folderContent[i]);
-                console.log("New items:");
-                console.log(JSON.stringify(items));
                 break;
             }
         }
