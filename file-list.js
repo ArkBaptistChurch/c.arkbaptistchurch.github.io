@@ -167,13 +167,17 @@ function filterByMIME(folderContent, mime) {
     var items = [];
     //Get all valid files
     for (var i = 0; i < folderContent.length; i++) {
+        console.log(i);
         if (folderContent[i].kind != "drive#file") continue;
+        console.log("Passed #1");
         for (var m = 0; m < mime.length; m++) {
             if (folderContent[i].mimeType.includes(mime[m])) {
                 items.push(folderContent[i]);
+                console.log("Was added.");
                 break;
             }
         }
+        console.log("Wasn't added.");
     }
     return items;
 }
