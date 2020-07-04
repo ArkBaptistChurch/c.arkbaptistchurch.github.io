@@ -43,17 +43,17 @@ function getContentFromDescriptions(folderContent, mime, reverse) {
 
 function getContentFromNames(folderContent, mime, reverse) {
     var res = [];
-    alert(JSON.stringify(folderContent).find("20200301"));
+    alert(JSON.stringify(folderContent).indexOf("20200301"));
     var items = filterByMIME(folderContent, mime);
     //Sort files by date
     
-    alert(JSON.stringify(items).find("20200301"));
+    alert(JSON.stringify(items).indexOf("20200301"));
     
     items.sort(function(a, b) {
         if (reverse) return getDate(a.title)[0].getTime() - getDate(b.title)[0].getTime();
         return getDate(b.title)[0].getTime() - getDate(a.title)[0].getTime();
     });
-    alert(JSON.stringify(items).find("20200301"));
+    alert(JSON.stringify(items).indexOf("20200301"));
     
     var itemNames = [];
     //Get item names after removing extensions
@@ -170,7 +170,7 @@ function filterByMIME(folderContent, mime) {
     for (var i = 0; i < folderContent.length; i++) {
         if (folderContent[i].kind != "drive#file") continue;
         for (var m = 0; m < mime.length; m++) {
-            if (folderContent[i].mimeType.find(mime[m]) != -1 || mime[m].find(folderContent[i].mimeType) != -1) {
+            if (folderContent[i].mimeType.indexOf(mime[m]) != -1 || mime[m].indexOf(folderContent[i].mimeType) != -1) {
                 items.push(folderContent[i]);
                 break;
             }
