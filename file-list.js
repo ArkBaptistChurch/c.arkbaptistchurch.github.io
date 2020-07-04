@@ -31,7 +31,6 @@ function getContentFromDescriptions(folderContent, mime, reverse) {
         if (tmp == null) return;
         tmp.push(items[i].webContentLink);
         res.push(tmp);
-        console.log("Found file " + tmp);
     }
     //Sort files
     res.sort(function(a, b) {
@@ -44,14 +43,15 @@ function getContentFromDescriptions(folderContent, mime, reverse) {
 
 function getContentFromNames(folderContent, mime, reverse) {
     var res = [];
-    console.log(folderContent);
     var items = filterByMIME(folderContent, mime);
-    console.log(JSON.stringify(items));
     //Sort files by date
     items.sort(function(a, b) {
         if (reverse) return getDate(a.title)[0].getTime() - getDate(b.title)[0].getTime();
         return getDate(b.title)[0].getTime() - getDate(a.title)[0].getTime();
     });
+    
+    console.log(JSON.stringify(items));
+    
     console.log(items[2]);
     var itemNames = [];
     //Get item names after removing extensions
