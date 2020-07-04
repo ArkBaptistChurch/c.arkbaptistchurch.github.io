@@ -46,7 +46,8 @@ function getContentFromNames(folderContent, mime, reverse) {
     var res = [];
     console.log(folderContent);
     var items = filterByMIME(folderContent, mime);
-
+    console.log(folderContent);
+    
     //Sort files by date
     items.sort(function(a, b) {
         if (reverse) return getDate(a.title)[0].getTime() - getDate(b.title)[0].getTime();
@@ -56,7 +57,7 @@ function getContentFromNames(folderContent, mime, reverse) {
     var itemNames = [];
     //Get item names after removing extensions
     for (var i = 0; i < items.length; i++) itemNames[i] = items[i].title.substring(0, items[i].title.lastIndexOf("."));
-
+    console.log(itemNames[2]);
     for (var i = 0; i < itemNames.length; i++) {
         var tmp = getDate(itemNames[i]);
         var date = tmp[0];
@@ -67,7 +68,6 @@ function getContentFromNames(folderContent, mime, reverse) {
         cName = cTrim(itemNames[i].substring(tmp[1], index));
         eName = cTrim(itemNames[i].substring(index));
         res.push([date, cName, eName, items[i].alternateLink]);
-        console.log("Found file " + res[res.length - 1]);
     }
     return res;
 }
