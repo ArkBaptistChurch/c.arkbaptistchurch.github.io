@@ -174,7 +174,7 @@ function filterByMIME(folderContent, mime) {
             if (folderContent[i].mimeType.includes(mime[m])) {
                 items.push(folderContent[i]);
                 console.log("New items:");
-                console.log(items);
+                console.log(JSON.stringify(items));
                 break;
             }
         }
