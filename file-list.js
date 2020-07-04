@@ -44,9 +44,9 @@ function getContentFromDescriptions(folderContent, mime, reverse) {
 
 function getContentFromNames(folderContent, mime, reverse) {
     var res = [];
+    console.log(folderContent);
     var items = filterByMIME(folderContent, mime);
     console.log(items);
-    console.log(items[2]);
     console.log(getDate(items[2].title));
     //Sort files by date
     items.sort(function(a, b) {
