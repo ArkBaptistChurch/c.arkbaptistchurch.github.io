@@ -53,7 +53,7 @@ function getContentFromNames(folderContent, mime, reverse) {
         if (reverse) return getDate(a.title)[0].getTime() - getDate(b.title)[0].getTime();
         return getDate(b.title)[0].getTime() - getDate(a.title)[0].getTime();
     });
-
+    console.log(items[2]);
     var itemNames = [];
     //Get item names after removing extensions
     for (var i = 0; i < items.length; i++) itemNames[i] = items[i].title.substring(0, items[i].title.lastIndexOf("."));
