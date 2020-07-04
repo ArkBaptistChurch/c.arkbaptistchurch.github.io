@@ -42,13 +42,19 @@ function getContentFromDescriptions(folderContent, mime, reverse) {
 }
 
 function getContentFromNames(folderContent, mime, reverse) {
+
     var res = [];
-    alert(JSON.stringify(folderContent).indexOf("20200301"));
+    
+    var a = JSON.stringify(folderContent);
+    console.log(a);
     var items = filterByMIME(folderContent, mime);
-    //Sort files by date
+    
+    var b = JSON.stringify(items);
+    console.log(b);
     
     alert(JSON.stringify(items).indexOf("20200301"));
     
+    //Sort files by date
     items.sort(function(a, b) {
         if (reverse) return getDate(a.title)[0].getTime() - getDate(b.title)[0].getTime();
         return getDate(b.title)[0].getTime() - getDate(a.title)[0].getTime();
