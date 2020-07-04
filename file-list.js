@@ -45,6 +45,9 @@ function getContentFromNames(folderContent, mime, reverse) {
     var res = [];
     var items = filterByMIME(folderContent, mime);
     //Sort files by date
+    
+    console.log(JSON.stringify(items));
+    
     items.sort(function(a, b) {
         if (reverse) return getDate(a.title)[0].getTime() - getDate(b.title)[0].getTime();
         return getDate(b.title)[0].getTime() - getDate(a.title)[0].getTime();
