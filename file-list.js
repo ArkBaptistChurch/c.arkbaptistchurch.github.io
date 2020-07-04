@@ -66,7 +66,7 @@ function getContentFromNames(folderContent, mime, reverse) {
         cName = cTrim(itemNames[i].substring(tmp[1], index));
         eName = cTrim(itemNames[i].substring(index));
         res.push([date, cName, eName, items[i].alternateLink]);
-        console.log("Found file " + tmp);
+        console.log("Found file " + res[res.length - 1]);
     }
     return res;
 }
