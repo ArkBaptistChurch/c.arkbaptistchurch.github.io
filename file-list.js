@@ -18,7 +18,8 @@ function getDataFromNames(callback, id, mime, reverse) {
     request.send();
 
     request.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) callback(getContentFromNames(JSON.parse(request.responseText).items, mime, reverse));
+        //if (this.readyState == 4 && this.status == 200) callback(getContentFromNames(JSON.parse(request.responseText).items, mime, reverse));
+        if (this.readyState == 4 && this.status == 200) console.log(request.responseText);
         else if (this.readyState == 4) console.error("Error getting drive folder data: " + request.responseText + "\n.");
     }
 }
@@ -47,6 +48,7 @@ function getContentFromNames(folderContent, mime, reverse) {
     
     var a = JSON.stringify(folderContent);
     console.log(a);
+
     var items = filterByMIME(folderContent, mime);
     
     var b = JSON.stringify(items);
