@@ -4,7 +4,7 @@ var API_KEY = "AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw";
 
 function getDataFromDescriptions(callback, id, mime) {
     var request = new XMLHttpRequest();
-    request.open("GET", "https://www.googleapis.com/drive/v2/files?orderBy=title&q='" + id + "'+in+parents&key=" + API_KEY);
+    request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'+and+title+contains+2020&key=" + API_KEY);
     request.send();
 
     request.onreadystatechange = function() {
