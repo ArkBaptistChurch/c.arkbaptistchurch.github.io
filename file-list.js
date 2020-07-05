@@ -18,8 +18,7 @@ function getDataFromNames(callback, id, mime, reverse) {
     request.send();
 
     request.onreadystatechange = function() {
-        //if (this.readyState == 4 && this.status == 200) callback(getContentFromNames(JSON.parse(request.responseText).items, mime, reverse));
-        if (this.readyState == 4 && this.status == 200) console.log(request.responseText);
+        if (this.readyState == 4 && this.status == 200) callback(getContentFromNames(JSON.parse(request.responseText).items, mime, reverse));
         else if (this.readyState == 4) console.error("Error getting drive folder data: " + request.responseText + "\n.");
     }
 }
@@ -45,28 +44,19 @@ function getContentFromDescriptions(folderContent, mime, reverse) {
 function getContentFromNames(folderContent, mime, reverse) {
 
     var res = [];
-    
-    var a = JSON.stringify(folderContent);
-    console.log(a);
 
     var items = filterByMIME(folderContent, mime);
-    
-    var b = JSON.stringify(items);
-    console.log(b);
-    
-    alert(JSON.stringify(items).indexOf("20200301"));
     
     //Sort files by date
     items.sort(function(a, b) {
         if (reverse) return getDate(a.title)[0].getTime() - getDate(b.title)[0].getTime();
         return getDate(b.title)[0].getTime() - getDate(a.title)[0].getTime();
     });
-    alert(JSON.stringify(items).indexOf("20200301"));
     
     var itemNames = [];
     //Get item names after removing extensions
     for (var i = 0; i < items.length; i++) itemNames[i] = items[i].title.substring(0, items[i].title.lastIndexOf("."));
-    console.log(itemNames[2]);
+    
     for (var i = 0; i < itemNames.length; i++) {
         var tmp = getDate(itemNames[i]);
         var date = tmp[0];
