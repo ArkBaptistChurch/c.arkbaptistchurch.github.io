@@ -4,7 +4,7 @@ var API_KEY = "AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw";
 
 function getDataFromDescriptions(callback, id, mime) {
     var request = new XMLHttpRequest();
-    request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'&pageSize=5&key=" + API_KEY);
+    request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'+in+parents&key=" + API_KEY);
     request.send();
 
     request.onreadystatechange = function() {
@@ -16,7 +16,7 @@ function getDataFromDescriptions(callback, id, mime) {
 //Returns an array of arrays, containing each file's: date, chinese name, english name, alternate (view) link
 function getDataFromNames(callback, id, mime, reverse) {
     var request = new XMLHttpRequest();
-    request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'+in+parents&key=" + API_KEY);
+    request.open("GET", "https://www.googleapis.com/drive/v2/files?q='" + id + "'&key=" + API_KEY);
     request.send();
 
     request.onreadystatechange = function() {
