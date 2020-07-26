@@ -1,0 +1,71 @@
+
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="https://h.arkbaptistchurch.org/c/default-style.css">
+</head>
+<body style="background-color:transparent;">
+<script type="text/javascript"> 
+function validateAmount(amount){
+	if(amount.value.match( /^[0-9]+(\.([0-9]+))?$/)){
+		return true;
+	}else{
+	    wrong_amount.innerHTML = '請輸入奉獻金額 Please enter a valid amount.';
+		amount.focus();
+		return false;
+	}
+}
+
+function validateAndCopyAmount(dest) {
+  var src = document.getElementById("amount");
+
+  if (validateAmount(src)) {
+	dest.value = src.value;
+    return true;
+  }
+
+  return false;
+}
+</script>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" id="PayPalForm" method="post" onSubmit="return validateAndCopyAmount(this.amount);" target="_blank">
+
+<table border=0 width=100% cellpadding="0" cellspacing="0">
+<tr>
+<td align="middle" valine="top" style="font-size:2vw;">&nbsp;</td>
+</tr>
+
+<tr>
+<td valign="middle" align="left" nowrap="nowrap" width="1%" style="font-size:6vw;">&#x24;</td>
+<td valign="middle" align="left" nowrap="nowrap" width="1%" style="font-size:6vw;"><input id="amount" name="amount" onfocus="this.style.color='black'; this.value='';" style="background-color:rgba(255,255,255,0.5);padding:2px;font-size:5vw;width:25vw;" type="text" pattern="[0-9]*"/>
+</td>
+<td width="2vw" nowrap="nowrap"></td>
+
+<td width="1%" valign="middle" nowrap="nowrap">
+  <select required name="item_name" style="background-color:rgba(255,255,255,0.5);padding:2px;font-size:5vw;padding:3px;">
+    <option value="General Fund">一般奉獻 General Fund</optioin>
+    <option value="Building Fund">建堂基金 Building Fund</option>
+    <option value="Compassion Fund">慈惠基金 Compassion Fund</option>
+    <option value="Mission Fund">宣教基金 Mssion Fund</option>
+  </select>
+</td>
+<td width="5vw" nowrap="nowrap"></td>
+
+<td style="width:1%;padding:0px;" valign="middle" align="middle">
+  <input type="hidden" name="cmd" value="_xclick">
+  <input type="hidden" name="business" value="arkbaptistchurch@gmail.com">
+  <input type="hidden" id="paypal_amount" name="amount">
+  <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="Donate" style="width:25vw;"><br>
+</td>
+</tr>
+
+<tr>
+<td colspan=5 align="middle" valign="top"><div id='wrong_amount' style="font-size:3.2vw;color:red;">&nbsp;</div></td>
+<td align="middle" valign="top" style="font-size:2vw;">PayPal</td>
+</tr>
+
+</table>
+</form>
+
+</body>
+</html>
