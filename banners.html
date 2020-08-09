@@ -106,12 +106,14 @@
                 var url = window.location.href;
                 var arr = url.split(/[&?]/);
                 var id = "1-QfiKKCC944Fdcg53cCuc4faR7sk71cg", filter = "image", rev = 0;
+                var dots = 1;
                 for (var i = 1; i < arr.length; i++) {
                     if (arr[i].indexOf("id=") == 0) id = arr[i].substring(3);
                     if (arr[i].indexOf("filter=") == 0) filter = arr[i].substring(7);
                     if (arr[i].indexOf("reverse=") == 0) rev = arr[i].substring(8);
+                    if (arr[i].indexOf("dots=") == 0) dots = arr[i].substring(4);
                 }
-                getDataFromDescriptions(data => displayContent(data), id, filter.split("+"), rev);
+                getDataFromDescriptions(data => displayContent(data, dots), id, filter.split("+"), rev, dots);
             })();
 
             var container = "<div class=\"carousel-container slow-fade\">{content}{menu}</div>";
@@ -119,7 +121,7 @@
 
             var times = [];
 
-            function displayContent(data) {
+            function displayContent(data, dots) {
                 if (data.length == 0) return;
                 var banners = "";
                 var buttons = "";
@@ -140,7 +142,7 @@
                     }
                 }
                 document.getElementById("widget").innerHTML = container.replace("{content}", banners).replace("{menu}", menu.replace("{content}", buttons));
-                document.getElementsByClassName("carousel-container")[0].children[0].children[0].children[0].onload = function() { showMenu(); };
+                if (dots) document.getElementsByClassName("carousel-container")[0].children[0].children[0].children[0].onload = function() { showMenu(); };
                 updateSlides();
             }
 
