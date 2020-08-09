@@ -142,7 +142,7 @@
                     }
                 }
                 document.getElementById("widget").innerHTML = container.replace("{content}", banners).replace("{menu}", menu.replace("{content}", buttons));
-                if (dots) document.getElementsByClassName("carousel-container")[0].children[0].children[0].children[0].onload = function() { showMenu(); };
+                if (dots == 1) document.getElementsByClassName("carousel-container")[0].children[0].children[0].children[0].onload = function() { showMenu(); };
                 updateSlides();
             }
 
