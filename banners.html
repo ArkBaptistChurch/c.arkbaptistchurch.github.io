@@ -6,7 +6,7 @@ Useage:
 https://c.arkbaptistchurch.org/banners.html?id=1jySmkvMpDQpQbYP_A-YUgAVwNOUTSW5L&filter=png+jpeg&dots=0&reverse=0
 id: Google Drive Folder ID
 filter: select the MIME file type, default is "image"
-dots: whether display the navigation dots or not
+dots: if dots=0, don't display navigational dots.
 reverse: reverse sort order.  default is by file name in ascending order.
    If the images have description attached to it, sort by description.
 
@@ -147,6 +147,7 @@ the user will be send to a google doc when the image is being clicked on.
                 var buttons = "";
 
                 var date = new Date();
+                var counts = 0;
                 for (var r = 0; r < data.length; r++) {
                     var item = data[r];
                     var s = item[2], e = item[3];
@@ -157,12 +158,15 @@ the user will be send to a google doc when the image is being clicked on.
                         ];
                         if (item[4].length == 0) banners += t[0];
                         else banners += t[1];
-                        buttons += "<span class=\"banner-dot\" onclick=\"setSlide(" + (r) + ")\"></span>";
+                        // limited to 10 navagitional dots
+                        counts++;
+                        if (counts <= 10)
+                          buttons += "<span class=\"banner-dot\" onclick=\"setSlide(" + (r) + ")\"></span>";
                         times.push(Math.round(parseFloat(item[1]) * 1000.0));
                     }
                 }
                 document.getElementById("widget").innerHTML = container.replace("{content}", banners).replace("{menu}", menu.replace("{content}", buttons));
-                if (dots == 1) document.getElementsByClassName("carousel-container")[0].children[0].children[0].children[0].onload = function() { showMenu(); };
+                if (dots != 0) document.getElementsByClassName("carousel-container")[0].children[0].children[0].children[0].onload = function() { showMenu(); };
                 updateSlides();
             }
 
