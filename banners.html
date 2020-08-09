@@ -1,4 +1,24 @@
 <!DOCTYPE html>
+<!--
+This HTML page display up to 70 images in a public google drive folder in a carousel.
+
+Useage:
+https://c.arkbaptistchurch.org/banners.html?id=1jySmkvMpDQpQbYP_A-YUgAVwNOUTSW5L&filter=png+jpeg&dots=0&reverse=0
+id: Google Drive Folder ID
+filter: select the MIME file type, default is "image"
+dots: whether display the navigation dots or not
+reverse: reverse sort order.  default is by file name in ascending order.
+   If the images have description attached to it, sort by description.
+
+Description format:
+display_order^display_timeout^start_date^end_date^url
+
+The following example shows that the corresponding image file will be displayed for 10 second
+from 01/01/2019 to 12/30/2020 and
+the user will be send to a google doc when the image is being clicked on.
+^10^01/01/2019^12/30/2020^https://docs.google.com/a/arkbaptistchurch.org/viewer?a=v&pid=sites&srcid=YXJrYmFwdGlzdGNodXJjaC5vcmd8emgtdHd8Z3g6NjgyNjEyZjg3OGFiNjA1ZA
+-->
+
 <html>
     <head>
         <title>Banners</title>
