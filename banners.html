@@ -158,9 +158,9 @@ the user will be send to a google doc when the image is being clicked on.
                         ];
                         if (item[4].length == 0) banners += t[0];
                         else banners += t[1];
-                        // limited to 10 navagitional dots
+                        // limited to 9 navigitional dots
                         counts++;
-                        if (counts <= 10)
+                        if (counts <= 9)
                           buttons += "<span class=\"banner-dot\" onclick=\"setSlide(" + (r) + ")\"></span>";
                         times.push(Math.round(parseFloat(item[1]) * 1000.0));
                     }
