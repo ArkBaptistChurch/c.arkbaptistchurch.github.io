@@ -196,7 +196,10 @@ the user will be send to a google doc when the image is being clicked on.
                 if (doUpdate) slideIndex += 1;
                 slideIndex = (slideIndex + slides.length) % slides.length;
                 slides[slideIndex].style.display = "block";
-                dots[slideIndex].className += " banner-active";
+                try {
+                    dots[slideIndex].className += " banner-active";
+                } catch(err) {
+                }
                 setTimeout(updateSlides, times[slideIndex], true);
             }
 
