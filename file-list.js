@@ -96,7 +96,7 @@ function getDate(fileName) {
                 d = parseInt(number.substring(2, 4), 10);
             }
             else {
-                console.error("Could not identify a valid year (must be >= 1970).");
+                // console.error("Could not identify a valid year (must be >= 1970).");
                 return [new Date(1970, 0, 1), 0];
             }
         }
@@ -113,19 +113,19 @@ function getDate(fileName) {
                 d = 1;
             }
             else {
-                console.error("Could not identify a valid year (must be >= 1970).");
+                // console.error("Could not identify a valid year (must be >= 1970).");
                 return [new Date(1970, 0, 1), 0];
             }
         }
         else {
-            console.error("Could not find date from file name '" + fileName + "'");
+            // console.error("Could not find date from file name '" + fileName + "'");
             return [new Date(1970, 0, 1), 0];
         }
         
         //Check to make sure it makes sense; doesn't check for special leap year rules, only 4 year cycles
         var dim = [0, 31, 28 + (y % 4 == 0 ? 1 : 0), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         if (y < 1970 || m < 1 || m > 12 || d < 1 || d > dim[m]) {
-            console.error("Invalid date (must be either YYYYMMDD or MMDDYYYY, as well as an existing date). ");
+            // console.error("Invalid date (must be either YYYYMMDD or MMDDYYYY, as well as an existing date). ");
             return [new Date(1970, 0, 1), 0];
         }
 
@@ -133,7 +133,7 @@ function getDate(fileName) {
         return [new Date(y, m - 1, d), index];
     }
     catch (err) {
-        console.error("Could not find date from file name '" + fileName + "'");
+        // console.error("Could not find date from file name '" + fileName + "'");
         return [new Date(1970, 0, 1), 0];
     }
 }
@@ -152,7 +152,7 @@ function fromDescription(item) {
         return tmp;
     }
     catch (err) {
-        console.error("Could not parse description '" + item + "'.");
+        // console.error("Could not parse description '" + item + "'.");
         return null;
     }
 }
