@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+  <ModulePrefs title="Ark Baptist Church Donation" /> 
+  <UserPref name="message" display_name="Message" default_value="網路奉獻:" />
+  <Content type="html">
+     <![CDATA[ 
+
+
+<script type="text/javascript"> 
+function validateAmount(amount){
+	if(amount.value.match( /^[0-9]+(\.([0-9]+))?$/)){
+		return true;
+	}else{
+		alert('You must enter a valid amount.');
+		amount.focus();
+		return false;
+	}
+}
+
+function validateAndCopyAmount(dest) {
+  var src = document.getElementById("amount");
+  if (validateAmount(src)) {
+     dest.value = src.value;
+     return true;
+  }
+
+  return false;
+}
+
+</script>
+
+<table cellpadding="0" cellspacing="0" width="1%">
+<tr>
+
+<tdnowrap="nowrap" width=30></td>
+
+<td valign="middle" nowrap="nowrap">
+<script type="text/javascript">
+var prefs = new gadgets.Prefs();
+document.write(prefs.getString("message"));
+</script>
+<font size=-2><br></font>
+</td>
+
+<td width=60 nowrap="nowrap"></td>
+
+<td valign="middle" align="left" nowrap="nowrap" width="1%">&#x24; <input id="amount" name="amount" onfocus="this.style.color='black'; this.value='';" size="10" style="color:grey;" type="text" value="Amount"/>
+
+<td valign="top" width="1%">
+<table cellpadding="0" cellspacing="0" width="1%">
+<tr>
+  <form action="https://www.paypal.com/cgi-bin/webscr" id="PayPalForm" method="post" onSubmit="return validateAndCopyAmount(this.amount);" target="_top">
+    <td width=15 nowrap="nowrap"></td>
+    <td valign="middle" nowrap="nowrap">
+	  <select required name="item_name">
+	    <option value="General Fund">一般奉獻</optioin>
+	    <option value="Building Fund">建堂基金</option>
+	    <option value="Compassion Fund">慈惠基金</option>
+	    <option value="Mission Fund">宣教基金</option>
+			  </select>
+	</td>	
+    <td width=15 nowrap="nowrap"></td>
+    <td valign="bottom" align="center">
+      <input type="hidden" name="cmd" value="_xclick">
+      <input type="hidden" name="business" value="arkbaptistchurch@gmail.com">
+      <input type="hidden" id="paypal_amount" name="amount">
+      <font size=-2><br></font>
+      <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="Donate">
+      <font size=-2>PayPal</font>
+    </td>
+  </form>
+</tr>
+</table>
+
+</td>
+</tr>
+</table>
+
+     ]]>
+  </Content> 
+</Module>
+
