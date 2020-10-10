@@ -6,29 +6,77 @@
 </head>
 <body style="background-color:transparent;">
 <script type="text/javascript"> 
+
 function validateAmount(amount){
-	if(amount.value.match( /^[0-9]+(\.([0-9]+))?$/)){
-		return true;
-	}else{
-	    wrong_amount.innerHTML = '請輸入奉獻金額 Please enter a valid amount.';
-		amount.focus();
-		return false;
+	// if (amount.value.match( /^[0-9]+(\.([0-9]+))?$/)) {
+	if (amount.value.match( /^[0-9]+(\.([0-9]+))?$/)) {
+          // errMsg.innerHTML = "";
+          return true;
+	} else {
+          return false;
 	}
 }
 
-function validateAndCopyAmount(dest) {
+function validateForm(form) {
+  // validate amount
+  var dest = form.amount;
   var src = document.getElementById("amount");
 
-  if (validateAmount(src)) {
-	dest.value = src.value;
-    return true;
+  if (src.value == "金額 Amount") {
+    errMsg.innerHTML = '請輸入奉獻金額 Please enter a valid amount.';
+    src.focus();
+    return false;
   }
 
-  return false;
+  dest.value = src.value;
+
+  // validate specail purpose
+  var i = document.getElementById("item_name").selectedIndex;
+  var p = document.getElementById("purpose");
+  if ((i == 4) && (p.value == '用途 Purpose?')) {
+    errMsg.innerHTML = "請指定用途 Please specify the purpose of this donation.";
+    p.focus(); 
+    return false; 
+  }
+
+  errMsg.innerHTML = '';
+  return true;
 }
+
+function hidePurpose(input) {
+  input.style.width = "50vw";
+  document.getElementById("purpose").type="hidden";
+}
+
+function showPurpose(input) {
+  input.style.width = "22vw";
+  purpose = document.getElementById("purpose")
+  purpose.type="text";
+  purpose.style.width = "28vw";
+}
+
+function formatAmountOnFocus(input) {
+  if (input.value == "金額 Amount") {
+    input.value = "";
+  }
+  input.style.color = "black";
+}
+
+function formatAmountOnFocusOut(input) {
+  if (input.value == "") {
+    input.value = "金額 Amount";
+    input.style.color = "grey";
+    // errMsg.innerHTML = '';
+  } else if (! validateAmount(input)) {
+    input.style.color = "grey";
+    errMsg.innerHTML = '請輸入奉獻金額 Please enter a valid amount.';
+  }
+}
+
+
 </script>
 
-<form action="https://www.paypal.com/cgi-bin/webscr" id="PayPalForm" method="post" onSubmit="return validateAndCopyAmount(this.amount);" target="_blank">
+<form action="https://www.paypal.com/cgi-bin/webscr" id="PayPalForm" method="post" onSubmit="return validateForm(this);" target="_blank" novalidate>
 
 <table border=0 width=100% cellpadding="0" cellspacing="0">
 <tr>
@@ -36,31 +84,35 @@ function validateAndCopyAmount(dest) {
 </tr>
 
 <tr>
-<td valign="middle" align="left" nowrap="nowrap" width="1%" style="font-size:5vw;">&#x24;</td>
-<td valign="middle" align="left" nowrap="nowrap" width="1%" style="font-size:4vw;"><input id="amount" name="amount" onfocus="this.style.color='black'; this.value='';" style="background-color:rgba(255,255,255,0.5);padding:2px;font-size:5vw;width:25vw;" type="text" pattern="[0-9]*"/>
+<td valign="middle" align="left" nowrap="nowrap" width="1%" style="font-size:4vw;">&#x24;</td>
+<td valign="middle" align="left" nowrap="nowrap" width="1%" style="font-size:3.5vw;"><input id="amount" name="amount" onfocus="formatAmountOnFocus(this);" onfocusout="formatAmountOnFocusOut(this);" style="background-color:rgba(255,255,255,0.5);padding:2px;font-size:3.5vw;width:22vw;color:grey;" type="text" pattern="[0-9]*" value="金額 Amount"/>
 </td>
-<td width="2vw" nowrap="nowrap"></td>
+<td width="1vw" nowrap="nowrap"></td>
 
 <td width="1%" valign="middle" nowrap="nowrap">
-  <select required name="item_name" style="background-color:rgba(255,255,255,0.5);padding:2px;font-size:3.5vw;padding:3px;">
+  <select required name="item_name" id='item_name' style="background-color:rgba(255,255,255,0.5);padding:2px;font-size:3.5vw;padding:3px;width: 50vw;" onchange="if (this.selectedIndex == 4) showPurpose(this); else hidePurpose(this);">
     <option value="General Fund">一般奉獻 General Fund</optioin>
     <option value="Building Fund">建堂基金 Building Fund</option>
     <option value="Charity Fund">慈惠基金 Charity Fund</option>
     <option value="Mission Fund">宣教基金 Mssion Fund</option>
+    <option value="Other">其他 Other</option>
   </select>
+  <input type="hidden" id="purpose" name="os0" maxlength="200" style="background-color:rgba(255,255,255,0.5);padding:2px;font-size:3.5vw;color:grey;" value="用途 Purpose?" onfocus="this.style.color='black'; if (this.value == '用途 Purpose?') this.value='';" onfocusout="if (this.value == '') { this.style.color = 'grey'; this.value = '用途 Purpose?'; }">
+  
 </td>
-<td width="5vw" nowrap="nowrap"></td>
+<td width="2vw" nowrap="nowrap"></td>
 
 <td style="width:1%;padding:0px;" valign="middle" align="middle">
   <input type="hidden" name="cmd" value="_xclick">
   <input type="hidden" name="business" value="arkbaptistchurch@gmail.com">
   <input type="hidden" id="paypal_amount" name="amount">
+  <input type="hidden" name="on0" value="Notes">
   <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="Donate" style="width:18vw;"><br>
 </td>
 </tr>
 
 <tr>
-<td colspan=5 align="middle" valign="top"><div id='wrong_amount' style="font-size:2.7vw;color:red;">&nbsp;</div></td>
+<td colspan=5 align="middle" valign="top"><div id='errMsg' style="font-size:2.7vw;color:red;">&nbsp;</div></td>
 <td align="middle" valign="top" style="font-size:2vw;">PayPal</td>
 </tr>
 
