@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="https://h.arkbaptistchurch.org/c/default-style.css">
+<link rel="stylesheet" type="text/css" href="https://c.arkbaptistchurch.org/default-style.css">
 </head>
 <body style="background-color:transparent;">
 <script type="text/javascript"> 
@@ -23,7 +23,7 @@ function validateForm(form) {
   var src = document.getElementById("amount");
 
   if (src.value == "金額 Amount") {
-    errMsg.innerHTML = '請輸入奉獻金額 Please enter a valid amount.';
+    setErrMsg('請輸入奉獻金額 Please enter a valid amount.');
     src.focus();
     return false;
   }
@@ -32,27 +32,55 @@ function validateForm(form) {
 
   // validate specail purpose
   var i = document.getElementById("item_name").selectedIndex;
-  var p = document.getElementById("purpose");
+  var p = document.getElementById("memo");
   if ((i == 4) && (p.value == '用途 Purpose?')) {
-    errMsg.innerHTML = "請指定用途 Please specify the purpose of this donation.";
+    setErrMsg("請指定用途 Please specify the purpose of this donation.");
     p.focus(); 
     return false; 
   }
 
-  errMsg.innerHTML = '';
+  resetErrMsg();
   return true;
 }
 
-function hidePurpose(input) {
-  input.style.width = "50vw";
-  document.getElementById("purpose").type="hidden";
+function resetMemo()
+{
+  var i = document.getElementById("item_name").selectedIndex;
+  var p = document.getElementById("memo");
+
+  if (i == 4) {
+    if ((p.value == "") || (p.value == "用途 Purpose?")) {
+      p.style.color = "grey";
+      p.value = "用途 Purpose?";
+    }
+  } else {
+    if (p.value == "用途 Purpose?") {
+      p.value = "";
+    }
+  }
+  // resetErrMsg();
 }
 
-function showPurpose(input) {
-  input.style.width = "22vw";
-  purpose = document.getElementById("purpose")
-  purpose.type="text";
-  purpose.style.width = "28vw";
+
+function showPurpose()
+{
+  var p = document.getElementById("memo");
+  if (p.value == "") {
+    p.style.color = "grey";
+    p.value = "用途 Purpose?";
+  }
+}
+
+function resetErrMsg()
+{
+  errMsg.innerHTML = '沒有錯誤 No Errore';
+  errMsg.style = "font-size:2.7vw;color:#ffffff00;";
+}
+
+function setErrMsg(msg)
+{
+  errMsg.innerHTML = msg;
+  errMsg.style = "font-size:2.7vw;color:red;";
 }
 
 function formatAmountOnFocus(input) {
@@ -69,7 +97,7 @@ function formatAmountOnFocusOut(input) {
     // errMsg.innerHTML = '';
   } else if (! validateAmount(input)) {
     input.style.color = "grey";
-    errMsg.innerHTML = '請輸入奉獻金額 Please enter a valid amount.';
+    setErrMsg('請輸入奉獻金額 Please enter a valid amount.');
   }
 }
 
@@ -78,9 +106,13 @@ function formatAmountOnFocusOut(input) {
 
 <form action="https://www.paypal.com/cgi-bin/webscr" id="PayPalForm" method="post" onSubmit="return validateForm(this);" target="_blank" novalidate>
 
-<table border=0 width=100% cellpadding="0" cellspacing="0">
+<table border=0 width=100% cellpadding="0" cellspacing="0" style"background-color:#00000000">
 <tr>
 <td align="middle" valine="top" style="font-size:2vw;">&nbsp;</td>
+</tr>
+
+<tr>
+<td colspan=5 align="middle" valign="top"><div id='errMsg' style="font-size:2.7vw;color:#ffffff00;">沒有錯誤 No Error</div></td>
 </tr>
 
 <tr>
@@ -90,14 +122,13 @@ function formatAmountOnFocusOut(input) {
 <td width="1vw" nowrap="nowrap"></td>
 
 <td width="1%" valign="middle" nowrap="nowrap">
-  <select required name="item_name" id='item_name' style="background-color:rgba(255,255,255,0.5);padding:2px;font-size:3.5vw;padding:3px;width: 50vw;" onchange="if (this.selectedIndex == 4) showPurpose(this); else hidePurpose(this);">
+  <select required name="item_name" id='item_name' style="background-color:rgba(255,255,255,0.5);padding:2px;font-size:3.5vw;padding:3px;width: 50vw;" onchange="if (this.selectedIndex == 4) showPurpose(); else resetMemo();">
     <option value="General Fund">一般奉獻 General Fund</optioin>
     <option value="Building Fund">建堂基金 Building Fund</option>
     <option value="Charity Fund">慈惠基金 Charity Fund</option>
     <option value="Mission Fund">宣教基金 Mssion Fund</option>
     <option value="Other">其他 Other</option>
   </select>
-  <input type="hidden" id="purpose" name="os0" maxlength="200" style="background-color:rgba(255,255,255,0.5);padding:2px;font-size:3.5vw;color:grey;" value="用途 Purpose?" onfocus="this.style.color='black'; if (this.value == '用途 Purpose?') this.value='';" onfocusout="if (this.value == '') { this.style.color = 'grey'; this.value = '用途 Purpose?'; }">
   
 </td>
 <td width="2vw" nowrap="nowrap"></td>
@@ -112,8 +143,12 @@ function formatAmountOnFocusOut(input) {
 </tr>
 
 <tr>
-<td colspan=5 align="middle" valign="top"><div id='errMsg' style="font-size:2.7vw;color:red;">&nbsp;</div></td>
+<td colspan=2 align="right" style="font-size:3.5vw;background-color:rgba(255,255,255,0.5);padding-top:5px;">備註 Memo:</td>
+<td></td>
+<td colspan=2 align="left" valign="top" style="padding-top:5px;">
+<input type="text" id="memo" name="os0" maxlength="200" style="width:50vw;background-color:rgba(255,255,255,0.5);padding:2px;font-size:3.5vw;color:grey;" value="" onfocus="this.style.color='black'; if (this.value == '用途 Purpose?') this.value='';" onfocusout=resetMemo()>
 <td align="middle" valign="top" style="font-size:2vw;">PayPal</td>
+</td>
 </tr>
 
 </table>
