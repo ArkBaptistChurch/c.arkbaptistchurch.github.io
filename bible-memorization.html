@@ -25,7 +25,7 @@
                 text-align: center;
             }
 
-            .icon-container {
+            #icon-container {
                 width: fit-content;
                 margin: 0 auto;
                 text-align: center;
@@ -42,6 +42,16 @@
                 user-select: none; /* Standard */
                 cursor: pointer;
             }
+            
+            #audio-link.span {
+                position:absolute; 
+                width:100%;
+                height:100%;
+                top:0;
+                left: 0;
+
+                z-index: 1;
+            }
         </style>
     </head>
     <body>
@@ -55,11 +65,11 @@
                             <a id="l-c" target="_blank"></a>
                         </td>
                         <td id="audio-cell">
-                            <a id="audio-link" target="_blank">
-                                <div class="icon-container">
-                                    <span class="material-icons">headset</span>
-                                </div>
-                            </a>
+                            <div id="icon-container">
+                                <span class="material-icons">headset</span>
+                                
+                                <a id="audio-link" target="_blank"><span></span></a>
+                            </div>
                         </td>
                     </tr>
                 </table>
