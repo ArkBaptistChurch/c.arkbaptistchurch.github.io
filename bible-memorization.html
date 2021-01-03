@@ -4,6 +4,7 @@
         <title>Bible Memorization</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="default-style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script type="text/javascript" src="file-list.js"></script>
         <style>
             td {
@@ -14,6 +15,10 @@
             #widget {
                 background-color: var(--color-background-main);
                 font-size: 7vw;
+            }
+
+            #audio-cell {
+                width: 25%;
             }
         </style>
     </head>
@@ -26,6 +31,9 @@
                             <a id="l-e" target="_blank"></a>
                             <br />
                             <a id="l-c" target="_blank"></a>
+                        </td>
+                        <td id="audio-cell">
+                            <a id="audio-link" target="_blank"><span class="material-icons">headset</span></a>
                         </td>
                     </tr>
                 </table>
@@ -61,7 +69,6 @@
                 var index = 1;
                 while (index < table.length) {
                     var s = getDate(table[index][0]);
-                    console.log(table[index][0] + " \t" + s[0]);
                     try {
                         if (s[1] == 0) s[0] = new Date(table[index][0]);
                     }
@@ -71,7 +78,6 @@
                     if (date < s[0]) break;
                     index++;
                 }
-                console.log(table[index]);
                 if (index >= table.length) index = table.length;
                 index--;
                 var chapter = [table[index][2], table[index][1]];
