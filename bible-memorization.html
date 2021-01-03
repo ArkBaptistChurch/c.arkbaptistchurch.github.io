@@ -61,6 +61,7 @@
                 var index = 1;
                 while (index < table.length) {
                     var s = getDate(table[index][0]);
+                    console.log(s[0]);
                     try {
                         if (s[1] == 0) s[0] = new Date(table[index][0]);
                     }
@@ -70,6 +71,7 @@
                     if (date < s[0]) break;
                     index++;
                 }
+                console.log(table[index]);
                 if (index >= table.length) index = table.length;
                 index--;
                 var chapter = [table[index][2], table[index][1]];
