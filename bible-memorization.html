@@ -61,7 +61,7 @@
                 var index = 1;
                 while (index < table.length) {
                     var s = getDate(table[index][0]);
-                    console.log(s[0]);
+                    console.log(table[index][0] + " \t" + s[0]);
                     try {
                         if (s[1] == 0) s[0] = new Date(table[index][0]);
                     }
@@ -80,41 +80,6 @@
                 document.getElementById("l-c").innerHTML += chapter[1];
                 document.getElementById("l-e").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=ESV&interface=print";
                 document.getElementById("l-c").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=CUVMPT&interface=print";
-            }
-
-            var slideIndex = 0;
-
-            function changeSlide(n) {
-                slideIndex += n;
-                updateSlides(false);
-            }
-
-            function setSlide(n) {
-                slideIndex = n;
-                updateSlides(false);
-            }
-
-            function showMenu() {
-                document.getElementsByClassName("banner-menu")[0].style.visibility = "visible";
-                updateSlides(false);
-            }
-
-            function updateSlides(doUpdate) {
-                clearTimeouts();
-                var slides = document.getElementsByClassName("banner");
-                var dots = document.getElementsByClassName("banner-dot");
-                for (var i = 0; i < slides.length; i++) slides[i].style.display = "none";
-                for (var i = 0; i < dots.length; i++) dots[i].className = dots[i].className.replace(" banner-active", "");
-                if (doUpdate) slideIndex += 1;
-                slideIndex = (slideIndex + slides.length) % slides.length;
-                slides[slideIndex].style.display = "block";
-                dots[slideIndex].className += " banner-active";
-                setTimeout(updateSlides, times[slideIndex], true);
-            }
-
-            function clearTimeouts() {
-                var id = window.setTimeout(function() {}, 0);
-                while (id--) window.clearTimeout(id);
             }
         </script>
     </body>
