@@ -7,18 +7,26 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script type="text/javascript" src="file-list.js"></script>
         <style>
-            td {
-                width: 100%;
-                text-align: center;
-            }
 
             #widget {
                 background-color: var(--color-background-main);
                 font-size: 7vw;
             }
 
+            #info-cell {
+                width: 75%;
+            }
+
             #audio-cell {
                 width: 25%;
+            }
+
+            td {
+                text-align: center;
+            }
+            
+            span {
+                line-height: 100%;
             }
         </style>
     </head>
@@ -27,7 +35,7 @@
             <div class="cell" style="margin: 0px; padding: 0px;">
                 <table>
                     <tr>
-                        <td>
+                        <td id="info-cell">
                             <a id="l-e" target="_blank"></a>
                             <br />
                             <a id="l-c" target="_blank"></a>
