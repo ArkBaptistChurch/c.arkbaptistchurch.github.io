@@ -25,10 +25,22 @@
                 text-align: center;
             }
 
+            .icon-container {
+                width: fit-content;
+                margin: 0 auto;
+                text-align: center;
+            }
+
             .material-icons {
                 height: 100%;
                 vertical-align: middle;
                 display: table-cell;
+
+                -webkit-user-select: none; /* Safari */        
+                -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* IE10+/Edge */
+                user-select: none; /* Standard */
+                cursor: pointer;
             }
         </style>
     </head>
@@ -43,7 +55,11 @@
                             <a id="l-c" target="_blank"></a>
                         </td>
                         <td id="audio-cell">
-                            <a id="audio-link" target="_blank"><div><span class="material-icons">headset</span></div></a>
+                            <a id="audio-link" target="_blank">
+                                <div class="icon-container">
+                                    <span class="material-icons">headset</span>
+                                </div>
+                            </a>
                         </td>
                     </tr>
                 </table>
