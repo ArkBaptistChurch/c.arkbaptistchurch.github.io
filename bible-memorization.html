@@ -96,6 +96,8 @@
                 document.getElementById("l-c").innerHTML += chapter[1];
                 document.getElementById("l-e").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=ESV&interface=print";
                 document.getElementById("l-c").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=CUVMPT&interface=print";
+                if (table[index].length >= 4) document.getElementById("audio-link").href = table[index][3];
+                else document.getElementById("audio-cell").remove();
             }
         </script>
     </body>
