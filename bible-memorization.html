@@ -105,6 +105,9 @@
                 var date = new Date();
                 var index = 1;
                 while (index < table.length) {
+                    //Empty row
+                    if (table[index][0].length == 0) continue;
+
                     var s = getDate(table[index][0]);
                     try {
                         if (s[1] == 0) s[0] = new Date(table[index][0]);
