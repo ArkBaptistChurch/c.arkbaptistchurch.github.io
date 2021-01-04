@@ -30,7 +30,7 @@
                 margin: 0 auto;
                 text-align: center;
                 position: relative;
-                display: none;
+                /*display: none;*/
             }
 
             .material-icons {
@@ -107,7 +107,7 @@
                 var index = 1;
                 while (index < table.length) {
                     //Empty row
-                    if (table[index].length == 0 || table[index][0].length == 0) continue;
+                    //if (table[index].length == 0 || table[index][0].length == 0) continue;
 
                     var s = getDate(table[index][0]);
                     try {
@@ -127,7 +127,8 @@
                 document.getElementById("l-c").innerHTML += chapter[1];
                 document.getElementById("l-e").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=ESV&interface=print";
                 document.getElementById("l-c").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=CUVMPT&interface=print";
-
+                
+                /*
                 if (table[index].length >= 4) {
                     document.getElementById("audio-link").href = table[index][3];
                     document.getElementById("icon-container").display = "block";
@@ -136,6 +137,7 @@
                     var element = document.getElementById("audio-cell");
                     element.parentNode.removeChild(element);
                 }
+                */
             }
         </script>
     </body>
