@@ -30,7 +30,7 @@
                 margin: 0 auto;
                 text-align: center;
                 position: relative;
-                /*display: none;*/
+                display: none;
             }
 
             .material-icons {
@@ -107,7 +107,7 @@
                 var index = 1;
                 while (index < table.length) {
                     //Empty row
-                    //if (table[index].length == 0 || table[index][0].length == 0) continue;
+                    if (table[index].length == 0 || table[index][0].length == 0) continue;
 
                     var s = getDate(table[index][0]);
                     try {
