@@ -107,7 +107,7 @@
                 var index = 1;
                 while (index < table.length) {
                     //Empty row
-                    if (table[index][0].length == 0 || table[index][0] == undefined) continue;
+                    if (table[index][0] == undefined || table[index][0].length == 0) continue;
 
                     var s = getDate(table[index][0]);
                     try {
