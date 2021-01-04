@@ -126,20 +126,22 @@
                 index--;
                 var chapter = [table[index][2], table[index][1]];
                 
-                document.getElementById("l-e").innerHTML += chapter[0];
-                document.getElementById("l-c").innerHTML += chapter[1];
-                document.getElementById("l-e").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=ESV&interface=print";
-                document.getElementById("l-c").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=CUVMPT&interface=print";
-                
-                
+                //Check for audio
                 if (table[index].length >= 4) {
                     document.getElementById("audio-link").href = table[index][3];
                     document.getElementById("icon-container").display = "block";
+                    console.log("Found audio.");
                 }
                 else {
                     var element = document.getElementById("audio-cell");
                     element.parentNode.removeChild(element);
+                    condole.log("Could not find audio.");
                 }
+                
+                document.getElementById("l-e").innerHTML += chapter[0];
+                document.getElementById("l-c").innerHTML += chapter[1];
+                document.getElementById("l-e").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=NIV&interface=print";
+                document.getElementById("l-c").href = "https://www.biblegateway.com/passage/?search=" + chapter[0] + "&version=CUVMPT&interface=print";
                 
             }
         </script>
