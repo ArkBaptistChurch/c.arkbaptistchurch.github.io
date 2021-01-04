@@ -131,7 +131,10 @@
                     document.getElementById("audio-link").href = table[index][3];
                     document.getElementById("icon-container").display = "block";
                 }
-                else document.getElementById("audio-cell").remove();
+                else {
+                    var element = document.getElementById(elementId);
+                    element.parentNode.removeChild(element);
+                }
             }
         </script>
     </body>
