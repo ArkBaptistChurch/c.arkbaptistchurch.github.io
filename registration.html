@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--
+    This html display the remaining number of space available for a particular
+    event.  The number is pulled from a Google Spread Sheet cell Sheet2!D2.
+    The spreadsheed ID is passed through CALC parameter. (In that specific
+    Google Spread Sheet, B1 is the total space allowed, B2 is calculated
+    based on the total registered attendants.)
+    If the available space is greater than 0, a link to a Google Form will
+    be displayed for user to register for the event.  The from ID is passed
+    through FORM parameter.  This particular webpage is used to limit number
+    of people can register an event due to COVID-19.
+
+    Sample:
+    https://c.arkbaptistchurch.org/registration.html?calc=1MCB8iKHeHgI4-tvqOj8Dr0En1rlyJEtxK5xkxjB6gWA&form=AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw
+
+-->
+
+<html>
+    <head>
+        <title>Registration</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" type="text/css" href="default-style.css">
+        <style>
+        </style>
+    </head>
+
+    <body>
+    <div id="output" style="visibility: hidden; text-align: center; font-size: 4.5vw;">
+    還有 <div id="space1" style="display:inline-block"></div> 個位子 / 
+    <div id="space2" style="display:inline-block"></div> space available<br>
+    <br>
+    <a href="" id="googleform" style="text-decoration: underline; color: blue;">
+    按此或填以下表格登記 / <br>
+    Click Here or Fill the Form below to Make Reservation<br></a>
+    <br>
+    <iframe src="" id="googleformiframe" width="100%" style="height: 100vw; overflow: hidden; border: none;"></iframe>
+    </div>
+    
+    <div id="nospace" style="visibility: hidden; text-align: center; color: red; font-size:4.5vw;">
+    額滿 Full<br>
+    </div>
+
+    <script type="text/javascript">
+        var url = window.location.href;
+        var arr = url.split(/[&?]/);
+        var output = document.getElementById("output");
+        var outputHTML = output.innerHTML;
+
+        // the spreadsheet ID of the attandance
+        var calc = "1MCB8iKHeHgI4-tvqOj8Dr0En1rlyJEtxK5xkxjB6gWA"; 
+        // default google form
+        var form = "1FAIpQLSe-62pXXHCShHVEArTI7J11Jlcln-0scKqkNCCle7hZskgcSQ";
+        for (var i = 1; i < arr.length; i++) {
+            if (arr[i].indexOf("calc=") == 0)
+                calc = arr[i].substring(5);
+            else if (arr[i].indexOf("form=") == 0)
+                form = arr[i].substring(5);
+        }
+        googleformlink = "https://docs.google.com/forms/d/e/" + form + "/viewform?usp=sf_link";
+
+        // Read Spreadsheet
+        var API_KEY = "AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw";
+        var SPREADSHEET_ID = calc;
+        var QUERY = "Sheet2!D2";
+        var request = new XMLHttpRequest();
+        request.open("GET", 
+            "https://sheets.googleapis.com/v4/spreadsheets/" + SPREADSHEET_ID + 
+            "/values/" + QUERY + "?key=" + API_KEY);
+        request.send();
+
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var availableSpace = JSON.parse(request.response).values[0];
+                if (availableSpace == undefined) {
+                    console.error("Error getting spreadsheet data: " + request.responseText);
+                } else {
+                    if (parseInt(availableSpace) > 0) {
+                        document.getElementById("space1").innerHTML = availableSpace;
+                        document.getElementById("space2").innerHTML = availableSpace;
+                        googleform.href = googleformlink;
+                        googleformiframe.src = googleformlink;
+                        output.style.visibility = "";
+                    } else {
+                        nospace.style.visibility = "";
+                    }
+                }
+            } else if (this.readyState == 4) 
+                console.error("Error getting spreadsheet data: " + request.responseText);
+        }
+
+    </script>
+    </body>
+</html>
+                   
