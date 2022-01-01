@@ -133,9 +133,9 @@
                     console.log("Found audio.");
                 }
                 else {
-                //     var element = document.getElementById("audio-cell");
-                //     element.parentNode.removeChild(element);
-                     condole.log("Could not find audio.");
+                     var element = document.getElementById("audio-cell");
+                     element.parentNode.removeChild(element);
+                     console.log("Could not find audio.");
                 }
                 
                 document.getElementById("l-e").innerHTML += chapter[0];
