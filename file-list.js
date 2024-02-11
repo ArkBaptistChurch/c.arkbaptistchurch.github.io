@@ -1,5 +1,4 @@
 var API_KEY = "AIzaSyD1EvRZVQ891i-BAYedLwjklYrzLAC2oCw";
-var API_KEY = "AIzaSyCrWURw3feO6jd54gMvYLXwXuC_CMdwjTs";  // test API key by Shihao
 
 
 function getDataFromDescriptions(callback, id, mime) {
