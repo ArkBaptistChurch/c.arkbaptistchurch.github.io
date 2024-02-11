@@ -39,6 +39,7 @@ function getContentFromDescriptions(folderContent, mime, reverse) {
         return b[0] - a[0];
     });
 
+    console.log(res);  // debug XXX
     return res;
 }
 
