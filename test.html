@@ -91,6 +91,8 @@
 
             var arr = url.split(/[&?]/);
             var id = "1QIZDeqm-CAerIKRH2GqoZDc3YAeSn8hU", filter = "", disp = 0, rev = 0, count = 0;
+            var dots = 1;
+            
             for (var i = 1; i < arr.length; i++) {
                 if (arr[i].indexOf("id=") == 0) id = arr[i].substring(3);
                 if (arr[i].indexOf("filter=") == 0) filter = arr[i].substring(7);
